@@ -12,6 +12,17 @@ constructor(canvas, keyboard) {
     this.keyboard = keyboard;
     this.draw();
     this.setWorld();
+    this.checkCollisions();
+}
+
+checkCollisions() {
+    setInterval(() => {
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy)) {
+                console.log('Collision with Character ', enemy);
+            }
+        });
+    }, 200);
 }
 
 setWorld() {
