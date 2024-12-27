@@ -10,6 +10,7 @@ class MovableObject {
     otherDirection = false;
     speedY = 0;
     acceleration = 3;
+    energy = 100;
 
     applyGravity() {
         setInterval(() => {
@@ -49,6 +50,10 @@ class MovableObject {
             this.y + this.height > mo.y &&
             this.x < mo.x &&
             this.y < mo.y + mo.height;
+    }
+
+    hit() {
+        this.character.energy -= 5;
     }
 
     /**
