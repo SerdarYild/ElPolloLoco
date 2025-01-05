@@ -259,34 +259,25 @@ function turnSoundOn() {
  * 
  */
 function openControlGuide() {
-    const startScreen = document.getElementById('startScreen');
-    const controlsContainer = document.getElementById('controlsContainer');
-    const btnPlay = document.getElementById('btnPlay');
-    const audioOffIcon = document.getElementById('audioOffIcon');
-    const audioOnIcon = document.getElementById('audioOnIcon');
-    const controlGuides = document.getElementById('controlGuides');
-    const arrowBackGameControlls = document.getElementById('arrowBackGameControlls');
-
+    let startScreen = document.getElementById('startScreen');
+    let controlsContainer = document.getElementById('controlsContainer');
+    let controlGuide = document.getElementById('controlGuide');
+    let btnPlay = document.getElementById('btnPlay');
+    
     if (startScreen) startScreen.classList.add('d-none');
     if (controlsContainer) controlsContainer.classList.remove('d-none');
-    if (btnPlay) btnPlay.classList.add('d-none');
-    if (audioOffIcon) audioOffIcon.classList.add('d-none');
-    if (audioOnIcon) audioOnIcon.classList.add('d-none');
-    if (controlGuides) controlGuides.classList.add('d-none');
-    if (arrowBackGameControlls) arrowBackGameControlls.classList.remove('d-none');
+    if (controlGuide) controlGuide.style.display = 'none'; 
+    if (btnPlay) btnPlay.style.display = 'none';
 }
 
-
-/**
- * This Function close the Steering Menu.
- *
- */
 function closeSteeringMenu() {
-    document.getElementById('controlsContainer').classList.add('d-none');
-    document.getElementById('arrowBackGameControlls').classList.add('d-none');
-    document.getElementById('startScreen').classList.remove('d-none');
-    document.getElementById('btnPlay').classList.remove('d-none');
-    document.getElementById('audioOffIcon').classList.remove('d-none');
-    document.getElementById('audioOnIcon').classList.add('d-none');
-    document.getElementById('controlGuide').classList.remove('d-none');
+    let startScreen = document.getElementById('startScreen');
+    let controlsContainer = document.getElementById('controlsContainer');
+    let controlGuide = document.getElementById('controlGuide');
+    let btnPlay = document.getElementById('btnPlay');
+    
+    if (startScreen) startScreen.classList.remove('d-none');
+    if (controlsContainer) controlsContainer.classList.add('d-none');
+    if (controlGuide) controlGuide.style.display = 'block';
+    if (btnPlay) btnPlay.style.display = 'block';
 }
