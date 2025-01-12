@@ -47,8 +47,8 @@ function hideElementsInStartScreen() {
  * 
  */
 function showSoundBtns() {
-    document.getElementById('audioOnIcon').classList.remove('d-none');
-    document.getElementById('audioOffIcon').classList.remove('d-none');
+    document.getElementById('audioOn').classList.remove('d-none');
+    document.getElementById('audioOff').classList.remove('d-none');
 }
 
 /**
@@ -78,16 +78,19 @@ function playBackgroundMusic() {
  * 
  */
 function restartGame() {
-    document.getElementById('gameOverScreenContainer').classList.add('d-none');
-    document.getElementById('winScreenContainer').classList.add('d-none');
-    document.getElementById('startScreen').classList.add('d-none');
-    document.getElementById('audioOffIcon').classList.remove('d-none');
-    document.getElementById('audioOnIcon').classList.remove('d-none');
-    document.getElementById('openFullscreenIcon').classList.remove('d-none');
     closeFullscreen();
+
+    document.getElementById('gameoverContainer').classList.add('d-none');
+    document.getElementById('winScreen').classList.add('d-none');
+    document.getElementById('startScreen').classList.add('d-none');
+    document.getElementById('audioOff').classList.remove('d-none');
+    document.getElementById('audioOn').classList.remove('d-none');
+    document.getElementById('openFullscreenIcon').classList.remove('d-none');
+
     clearAllIntervals();
     resetBackgroundMusic();
     startGame();
+
     document.getElementById('canvas').classList.remove('d-none');
 }
 
@@ -95,11 +98,11 @@ function restartGame() {
  * This Function go back to Start screen.
  * 
  */
-function goBackToStartScreen() {
+function returnMainMenu() {
     clearAllIntervals();
     document.getElementById('canvas').classList.add('d-none');
-    document.getElementById('gameOverScreenContainer').classList.add('d-none');
-    document.getElementById('winScreenContainer').classList.add('d-none');
+    document.getElementById('gameoverContainer').classList.add('d-none');
+    document.getElementById('winScreen').classList.add('d-none');
     document.getElementById('startScreen').classList.remove('d-none');
     document.getElementById('btnPlay').classList.remove('d-none');
     document.getElementById('controlGuide').classList.remove('d-none');
@@ -114,12 +117,12 @@ function goBackToStartScreen() {
  */
 function showGameOverScreen() {
     setTimeout(() => {
-        document.getElementById('gameOverScreenContainer').classList.remove('d-none');
+        document.getElementById('gameoverContainer').classList.remove('d-none');
         document.getElementById('canvas').classList.add('d-none');
-        document.getElementById('audioOffIcon').classList.add('d-none');
-        document.getElementById('audioOnIcon').classList.add('d-none');
+        document.getElementById('audioOff').classList.add('d-none');
+        document.getElementById('audioOn').classList.add('d-none');
         document.getElementById('openFullscreenIcon').classList.add('d-none');
-        document.getElementById('exitFullscreenIcon').classList.add('d-none');
+        document.getElementById('closeFullscreenIcon').classList.add('d-none');
         resetBackgroundMusic();
     }, 1500);
 }
@@ -130,12 +133,12 @@ function showGameOverScreen() {
  */
 function showWinScreen() {
     setTimeout(() => {
-        document.getElementById('winScreenContainer').classList.remove('d-none');
+        document.getElementById('winScreen').classList.remove('d-none');
         document.getElementById('canvas').classList.add('d-none');
-        document.getElementById('audioOffIcon').classList.add('d-none');
-        document.getElementById('audioOnIcon').classList.add('d-none');
+        document.getElementById('audioOff').classList.add('d-none');
+        document.getElementById('audioOn').classList.add('d-none');
         document.getElementById('openFullscreenIcon').classList.add('d-none');
-        document.getElementById('exitFullscreenIcon').classList.add('d-none');
+        document.getElementById('closeFullscreenIcon').classList.add('d-none');
         resetBackgroundMusic();
     }, 1500);
 }
@@ -174,50 +177,25 @@ function openFullscreen() {
         gameContainer.requestFullscreen();
     } else if (gameContainer.webkitRequestFullscreen) {
         gameContainer.webkitRequestFullscreen();
-    } else if (gameContainer.msRequestFullscreen) { 
+    } else if (gameContainer.msRequestFullscreen) {
         gameContainer.msRequestFullscreen();
     }
-    addStylesForFullScreen();
-}
 
-/**
- * This Function add Styles for Fullscreen.
- * 
- */
-function addStylesForFullScreen() {
     document.getElementById('openFullscreenIcon').classList.add('d-none');
-    document.getElementById('exitFullscreenIcon').classList.remove('d-none');
-    document.getElementById('canvas').classList.add('canvasFullScreen');
-    document.getElementById('winScreenContainer').classList.add('winScreenContainerFullScreen', 'winScreenContainerFullScreenh2', 'imgTrophyContainerFullScreenimg');
-    document.getElementById('gameOverScreen').classList.add('gameOverScreenFullScreen');
+    document.getElementById('closeFullscreenIcon').classList.remove('d-none');
 }
 
-/**
- * This function close the Fullscreen.
- * 
- */
 function closeFullscreen() {
-    let gameContainer = document.getElementById('gameContainer');
-    if (gameContainer.requestFullscreen) {
-        gameContainer.requestFullscreen();
-    } else if (gameContainer.webkitRequestFullscreen) {
-        gameContainer.webkitRequestFullscreen();
-    } else if (gameContainer.msRequestFullscreen) { 
-        gameContainer.msRequestFullscreen();
+    if (document.fullscreenElement) {
+        document.exitFullscreen();
+    } else if (document.webkitFullscreenElement) {
+        document.webkitExitFullscreen();
+    } else if (document.msFullscreenElement) {
+        document.msExitFullscreen();
     }
-    addStylesForFullScreen();
-}
-
-/**
- * This Function remove Styles for Normal Screen.
- * 
- */
-function removeStylesForFullScreen() {
+    
+    document.getElementById('closeFullscreenIcon').classList.add('d-none');
     document.getElementById('openFullscreenIcon').classList.remove('d-none');
-    document.getElementById('exitFullscreenIcon').classList.add('d-none');
-    document.getElementById('canvas').classList.remove('canvasFullScreen');
-    document.getElementById('winScreenContainer').classList.remove('winScreenContainerFullScreen', 'winScreenContainerFullScreenh2', 'imgTrophyContainerFullScreenimg');
-    document.getElementById('gameOverScreen').classList.remove('gameOverScreenFullScreen');
 }
 
 /**
