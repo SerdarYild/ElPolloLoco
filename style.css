@@ -46,6 +46,18 @@ h1 {
 canvas {
     background-color: black;
     display: block;
+    width: 100%;
+    height: 100%;
+
+}
+
+.icon-container {
+    display: flex;
+    align-items: center;
+}
+
+.icon-container img {
+    margin-right: 10px; /* Abstand zwischen den Icons */
 }
 
 .open-fullscreen {
@@ -66,8 +78,8 @@ canvas {
     width: 35px;
     height: 35px;
     position: absolute;
-    top: 13px;
-    right: 15px;
+    bottom: 13px;
+    right: 150px;
 }
 
 .exitFullscreenIcon:hover {
@@ -80,45 +92,38 @@ canvas {
     position: relative;
 }
 
-.startScreenContainer {
+.start-screen {
     position: relative;
 }
 
-.startScreen {
+.button-mainmenu-container {
+    position: absolute;
+    bottom: 75%;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.img-startscreen {
     width: 820px;
     height: 480px;
     border-radius: 4px;
 }
 
-.btn-play {
-    width: 90px;
-    height: 80px;
-    position: absolute;
-    top: 20px;
-    right: 400px;
-}
-
-.btn-play:hover {
-    cursor: pointer;
-    transition: 225ms ease-in-out;
-    transform: scale(1.1);
-}
-
+.btn-play,
 .btn-controls {
     width: 100px;
-    display: flex;
-    justify-content: center;
-    height: 100px;
-    position: absolute;
-    top: 12px;
-    right: 270px;
+    height: auto;
+    cursor: pointer;
 }
 
+.btn-play:hover,
 .btn-controls:hover {
     cursor: pointer;
     transition: all 225ms ease-in-out;
     transform: scale(1.1);
 }
+
 
 .gameOverScreen {
     width: 820px;
@@ -126,19 +131,16 @@ canvas {
     animation: scale-in-center 225ms cubic-bezier(0.250, 0.460, 0.450, 0.940) 100ms both;
 }
 
-.btnContainer {
+.endgame-actions {
     position: absolute;
-    height: 320px;
-    top: 80px;
-    left: 290px;
+    bottom: 40px;
+    width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
-    flex-direction: column;
 }
 
-.btnRestart {
-    margin-bottom: 170px;
+.restart-game {
     background-color: #83838382;
     box-sizing: border-box;
     border: 1px solid #a3a3a3;
@@ -150,19 +152,23 @@ canvas {
     cursor: pointer;
 }
 
+.restart-game:hover {
+    cursor: pointer;
+    transition: 225ms ease-in-out;
+    transform: scale(1.2);
+}
+
 
 .btnMainMenu {
-    background-color: #AECA54;
+    background-color: #83838382;
     box-sizing: border-box;
-    border: 1px solid black;
-    border-radius: 5px;
+    border: 1px solid #a3a3a3;
+    border-radius: 4px;
     height: 50px;
-    width: 240px;
-    padding-left: 30px;
-    padding-right: 30px;
+    width: 170px;
     font-weight: bold;
-    font-size: 20px;
-    animation: scale-in-center 225ms cubic-bezier(0.250, 0.460, 0.450, 0.940) 100ms both;
+    font-size: 30px;
+    cursor: pointer;
 }
 
 .btnMainMenu:hover {
@@ -213,12 +219,12 @@ canvas {
 }
 
 .controls-container {
-    width: 820px;
-    height: 480px;
-    background-color: #7955485d;
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #7955485d;
+    width: 820px;
+    height: 480px;
     position: relative;
 }
 
@@ -231,8 +237,8 @@ canvas {
 
 .arrowBack {
     position: absolute;
-    left: 35px;
-    top: 30px;
+    left: 10px;
+    top: 10px;
     width: 40px;
     height: 40px;
 }
@@ -248,14 +254,14 @@ canvas {
     align-items: center;
 }
 
-.winScreenContainer {
+.win-screen {
     width: 820px;
     height: 480px;
     background-color:  hsl(24deg 100% 62% / 80%);
 }
 
-.winScreenContainer h2 {
-    color: #6c7d32;
+.win-screen h2 {
+    color: #515151;
     font-size: 50px;
     padding-top: 15px;
     margin-top: 0;
@@ -263,12 +269,12 @@ canvas {
     animation: scale-in-center 225ms cubic-bezier(0.250, 0.460, 0.450, 0.940) 100ms both;
 }
 
-.imgTrophyContainer {
+.img-trophy {
     display: flex;
     justify-content: center;
 }
 
-.imgTrophyContainer img {
+.img-trophy img {
     position: absolute;
     top: 45px;
     width: 375px;
@@ -306,23 +312,23 @@ canvas {
 }
 
 .game-controls {
-    position: absolute;
-    top: 45px;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    width: 400px;
-    height: 400px;
-   background-color:  yellow;
-   border: solid 2px rgb(172, 63, 23);
+    width: 330px;
+    height: 390px;
+    margin-top: 40px;
+    background-color: #69666673;
+    border: solid 1px rgb(122 122 122 / 60%);
+
 }
 
 .control-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 250px;
+    width: 200px;
 }
 
 .game-controls img {
@@ -334,8 +340,6 @@ canvas {
     font-size: 24px;
     font-weight: bold;
 }
-
-/***only for Fullscreen***/
 
 /***Only Keyframes***/
 @keyframes scale-in-center {
@@ -561,7 +565,7 @@ canvas {
 
 /***Start Screen***/
 @media (max-height: 480px) {
-    .startScreen {
+    .img-startscreen {
         height: 100vh !important;
     }
 
@@ -572,7 +576,7 @@ canvas {
 
 
 @media (max-width: 820px) {
-    .startScreen {
+    .img-startscreen {
         width: 100%;
         height: 100%;
     }
@@ -584,109 +588,95 @@ canvas {
 
 @media (max-width: 820px) {
     .btn-plays {
-        width: 200px;
-        height: 140px;
-        position: absolute;
-        top: 159px;
-        right: 294px;
+
     }
 
     .btn-controls {
-        width: 90px;
-        height: 80px;
-        position: absolute;
-        top: 20px;
-        right: 50px;
+
     }
 }
 
 @media (max-width: 690px) {
-    .btn-plays {
-        width: 180px;
-        height: 120px;
-        position: absolute;
-        top: 150px;
-        right: 240px;
+
     }
 
     .btn-controls {
-        width: 70px;
-        height: 60px;
-        position: absolute;
-        top: 20px;
-        right: 40px;
+
     }
+
+    .restart-game {
+        height: 40px;
+        width: 150px;
+        font-size: 26px;
+        font-weight: normal;
+    }
+
+    .btnMainMenu {
+        height: 40px;
+        width: 150px;
+        font-size: 26px;
+        font-weight: normal;
+    }
+
 }
 
 @media (max-width: 550px) {
     .btn-plays {
-        width: 140px;
-        height: 80px;
-        position: absolute;
-        top: 120px;
-        right: 200px;
+
     }
 
     .btn-controls {
-        width: 60px;
-        height: 50px;
-        position: absolute;
-        top: 20px;
-        right: 30px;
+
+    }
+
+    .endgame-actions {
+        bottom: 30px;
     }
 }
 
 @media (max-width: 450px) {
+    .endgame-actions {
+        bottom: 20px;
+    }
+
+    .restart-game {
+        height: 30px;
+        width: 130px;
+        font-size: 24px;
+    }
+
+    .btnMainMenu {
+        height: 30px;
+        width: 130px;
+        font-size: 24px;
+    }
+
     .btn-plays {
-        width: 100px;
-        height: 70px;
-        position: absolute;
-        top: 90px;
-        right: 150px;
+
     }
 
     .btn-controls {
-        width: 50px;
-        height: 40px;
-        position: absolute;
-        top: 10px;
-        right: 20px;
+
     }
 }
 
 @media (max-width: 370px) {
     .btn-plays {
-        width: 80px;
-        height: 50px;
-        position: absolute;
-        top: 90px;
-        right: 130px;
+
     }
 
     .btn-controls {
-        width: 50px;
-        height: 40px;
-        position: absolute;
-        top: 10px;
-        right: 20px;
+
     }
 }
 
 @media (max-width: 300px) {
     .btn-play {
-        width: 70px;
-        height: 40px;
-        position: absolute;
-        top: 70px;
-        right: 100px;
+
     }
 
     .btn-controls {
-        width: 30px;
-        height: 20px;
-        position: absolute;
-        top: 10px;
-        right: 20px;
+
     }
 }
 
@@ -702,98 +692,20 @@ canvas {
         width: 100%;
         height: 100%;
     }
-
-    .btnMainMenu {
-        width: 150px;
-        position: absolute;
-        top: 220px;
-        left: 40px;
-    }
-
-    .btnRestart {
-        width: 150px;
-        position: absolute;
-        top: 30px;
-        left: 40px;
-    }
-}
-
-@media (max-width: 620px) {
-    .btnMainMenu {
-        width: 150px;
-        position: absolute;
-        top: 140px;
-        left: -60px;
-    }
-
-    .btnRestart {
-        width: 150px;
-        position: absolute;
-        top: -20px;
-        left: -60px;
-    }
 }
 
 @media (max-width: 470px) {
-    .btnContainer {
-        margin-top: -45px;
-    }
 
-    .btnMainMenu {
-        width: 150px;
-        position: absolute;
-        top: 140px;
-        left: -120px;
-    }
-
-    .btnRestart {
-        width: 150px;
-        position: absolute;
-        top: 0px;
-        left: -120px;
-    }
 }
 
-@media (max-width: 390px) {
-    .btnMainMenu {
-        width: 120px;
-        position: absolute;
-        top: 110px;
-        left: -160px;
-    }
-
-    .btnRestart {
-        width: 120px;
-        position: absolute;
-        top: -10px;
-        left: -160px;
-    }
-}
-
-@media (max-width: 320px) {
-
-    .btnMainMenu {
-        width: 120px;
-        position: absolute;
-        top: 80px;
-        left: -180px;
-    }
-
-    .btnRestart {
-        width: 120px;
-        position: absolute;
-        top: -30px;
-        left: -180px;
-    }
-}
 
 /***Win Screen***/
 @media (max-width: 820px) {
-    .winScreenContainer {
+    .win-screen {
         width: 100vw;
     }
 
-    .imgTrophyContainer img {
+    .img-trophy img {
         width: 160px;
         position: absolute;
         top: 130px;
@@ -802,15 +714,15 @@ canvas {
 }
 
 @media (max-width: 620px) {
-    .winScreenContainer h2 {
+    .win-screen h2 {
         font-size: 30px;
     }
 
-    .winScreenContainer {
+    .win-screen {
         width: 100vw;
     }
 
-    .imgTrophyContainer img {
+    .img-trophy img {
         width: 160px;
         position: absolute;
         top: 70px;
@@ -819,16 +731,18 @@ canvas {
 }
 
 @media (max-width: 470px) {
-    .winScreenContainer h2 {
+    .win-screen h2 {
         font-size: 25px;
         position: absolute;
         top: 100px;
         right: 50px;
     }
-    .winScreenContainer {
+
+    .win-screen {
         width: 100vw;
     }
-    .imgTrophyContainer img {
+
+    .img-trophy img {
         width: 160px;
         position: absolute;
         top: 200px;
@@ -837,44 +751,45 @@ canvas {
 }
 
 @media (max-width: 390px) {
-    .winScreenContainer h2 {
+    .win-screen h2 {
         font-size: 20px;
         position: absolute;
         top: 240px;
         right: 70px;
     }
 
-    .imgTrophyContainer img {
+    .img-trophy img {
         padding-top: 55px;
         position: absolute;
         top: -20px;
         right: 130px;
     }
 
-    .winScreenContainer .btnContainer {
+    .win-screen {
         margin-top: 116px;
     }
 }
 
 @media (max-width: 320px) {
-    .winScreenContainer {
+    .win-screen {
         width: 100vw;
     }
-    .winScreenContainer h2 {
+
+    .win-screen h2 {
         font-size: 20px;
         position: absolute;
         top: 220px;
         right: 40px;
     }
 
-    .imgTrophyContainer img {
+    .img-trophy img {
         padding-top: 55px;
         position: absolute;
         top: -40px;
         right: 80px;
     }
 
-    .winScreenContainer .btnContainer {
+    .win-screen {
         margin-top: 116px;
     }
 }
