@@ -32,7 +32,6 @@
     <script src="models/endboss.class.js"></script>
 </head>
 
-
 <body>
 
     <h1>El Pollo Loco</h1>
@@ -41,53 +40,54 @@
 
         <canvas width="820" height="480" id="canvas" class="d-none"></canvas>
 
-        <!--Start Screen-->
-        <div class="startScreenContainer">
-            <img src="img/9_intro_outro_screens/start/startscreen_1.png" class="startScreen" id="startScreen">
-            <img src="img/icon/start.png" class="btn-play" onclick="startGame()" id="btnPlay">
-            <img src="img/icon/navigation.png" class="btn-controls" onclick="openControlGuide()" id="controlGuide">
+        <!--Main Menu-Screen-->
+        <div class="start-screen">
+            <img src="img/9_intro_outro_screens/start/startscreen_1.png" class="img-startscreen" id="startScreen">
+            <div class="button-mainmenu-container">
+                <img src="img/icon/start.png" class="btn-play" onclick="startGame()" id="btnPlay">
+                <img src="img/icon/navigation.png" class="btn-controls" onclick="openControlGuide()" id="controlGuide">
+            </div>
         </div>
 
-        <!--Win Screen-->
-        <div class="winScreenContainer d-none" id="winScreenContainer">
-            <div class="imgTrophyContainer">
+        <!--Win-Screen-->
+        <div class="win-screen d-none" id="winScreen">
+            <div class="img-trophy">
                 <img src="img/9_intro_outro_screens/win/win_2.png">
             </div>
-            <div class="btnContainer">
-                <button onclick="restartGame()" id="btnRestartWinScreen" class="btnRestart">Restart
-                    Game</button>
-                <button onclick="goBackToStartScreen()" id="btnMainMenuWinScreen" class="btnMainMenu">Main
-                    Menu</button>
+            <div class="endgame-actions">
+                <button onclick="restartGame()" id="restartGameWin" class="restart-game">Play again</button>
+                <button onclick="returnMainMenu()" id="btnMainMenuWinScreen" class="btnMainMenu">Main Menu</button>
             </div>
         </div>
 
         <!--Gameover Screen-->
-        <div class="gameOverScreenContainer d-none" id="gameOverScreenContainer">
+        <div class="gameover-screen d-none" id="gameoverContainer">
             <img src="img/9_intro_outro_screens/game_over/gameover.png" class="gameOverScreen" id="gameOverScreen">
-            <div class="btnContainer">
-                <button onclick="restartGame()" id="btnRestartGameOverScreen" class="btnRestart">Restart Game</button>
-                <button onclick="goBackToStartScreen()" id="btnMainMenuGameOverScreen" class="btnMainMenu">Main
+            <div class="endgame-actions">
+                <button onclick="restartGame()" id="restartGameOver" class="restart-game">Restart Game</button>
+                <button onclick="returnMainMenu()" id="btnMainMenuGameOverScreen" class="btnMainMenu">Main
                     Menu</button>
             </div>
         </div>
 
-        <!--Fullscreen Buttons-->
-        <img src="img/icon/fullscreen.png" class="open-fullscreen d-none" onclick="openFullscreen()"
-            id="openFullscreenIcon">
-        <img src="img/icon/minimize.png" class="exitFullscreenIcon d-none" onclick="closeFullscreen()"
-            id="exitFullscreenIcon">
-
-        <!--Sound Buttons-->
-        <img src="img/icon/audio_on.png" class="audioOnIcon d-none" onclick="turnSoundOn()" id="audioOnIcon">
-        <img src="img/icon/audio_off.png" class="audioOffIcon d-none" onclick="turnSoundOff()" id="audioOffIcon">
+        <div class="icon-container">
+            <!--Fullscreen Buttons-->
+            <img src="img/icon/fullscreen.png" class="open-fullscreen d-none" onclick="openFullscreen()" id="openFullscreenIcon">
+            <img src="img/icon/minimize.png" class="close-fullscreen d-none" onclick="closeFullscreen()" id="closeFullscreenIcon">
+        
+            <!--Sound Buttons-->
+            <img src="img/icon/audio_on.png" class="btn-audio-on d-none" onclick="turnSoundOn()" id="audioOn">
+            <img src="img/icon/audio_off.png" class="btn-audio-off d-none" onclick="turnSoundOff()" id="audioOff">
+        </div>
+        
     </div>
 
-    <!--Steering Menu-->
+    <!--Controls Menu-->
     <div class="controls-container d-none" id="controlsContainer">
-        <img src="./img/icon/close.png" class="arrowBack" onclick="closeSteeringMenu()" id="arrowBackGameControlls">
+        <img src="./img/icon/close.png" class="btn-close" onclick="closeControls()" id="closeBackGameControls">
 
         <div class="game-controls">
-            <h2>Game Controlls</h2>
+            <h2>Game Controls</h2>
 
             <div class="control-item">
                 <p>Move right</p>
