@@ -19,10 +19,9 @@ let intervalIds = [];
  * 
  */
 function startGame() {
-
     setTimeout(() => {
         initLevel();
-        hideElementsInStartScreen();
+        showGameDisplay();
         showSoundBtns();
         showFullscreenBtn();
         canvas = document.getElementById('canvas');
@@ -35,7 +34,7 @@ function startGame() {
  * This function hides the start screen.
  * 
  */
-function hideElementsInStartScreen() {
+function showGameDisplay() {
     document.getElementById('canvas').classList.remove('d-none');
     document.getElementById('startScreen').classList.add('d-none');
     document.getElementById('btnPlay').classList.add('d-none');
@@ -148,9 +147,7 @@ function showWinScreen() {
  * 
  */
 function resetBackgroundMusic() {
-    audioBackgroundMusicInGame.currentTime = 0;
     audioBackgroundMusicInGame.pause();
-    audioBackgroundMusicEndboss.currentTime = 0;
     audioBackgroundMusicEndboss.pause();
 }
 
@@ -202,7 +199,7 @@ function closeFullscreen() {
  * This Function mute Sound.
  * 
  */
-function turnSoundOff() {
+function muteAllGameAudio() {
     audioBackgroundMusicEndboss.muted = true;
     audioBackgroundMusicInGame.muted = true;
     audioDeadChicken.muted = true;
@@ -219,7 +216,7 @@ function turnSoundOff() {
  * This Function turn Sound on.
  * 
  */
-function turnSoundOn() {
+function unmuteAllGameAudio() {
     audioBackgroundMusicEndboss.muted = false;
     audioBackgroundMusicInGame.muted = false;
     audioDeadChicken.muted = false;
@@ -248,7 +245,7 @@ function openControlGuide() {
     if (btnPlay) btnPlay.style.display = 'none';
 }
 
-function closeSteeringMenu() {
+function closeControls() {
     let startScreen = document.getElementById('startScreen');
     let controlsContainer = document.getElementById('controlsContainer');
     let controlGuide = document.getElementById('controlGuide');
