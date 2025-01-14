@@ -74,7 +74,7 @@ canvas {
     transform: scale(1.2);
 }
 
-.exitFullscreenIcon {
+.close-fullscreen {
     width: 35px;
     height: 35px;
     position: absolute;
@@ -82,7 +82,7 @@ canvas {
     right: 150px;
 }
 
-.exitFullscreenIcon:hover {
+.close-fullscreen:hover {
     cursor: pointer;
     transition: all 225ms ease-in-out;
     transform: scale(1.2);
@@ -159,7 +159,7 @@ canvas {
 }
 
 
-.btnMainMenu {
+.btn-mainmenu {
     background-color: #83838382;
     box-sizing: border-box;
     border: 1px solid #a3a3a3;
@@ -171,7 +171,7 @@ canvas {
     cursor: pointer;
 }
 
-.btnMainMenu:hover {
+.btn-mainmenu:hover {
     cursor: pointer;
     transition: 225ms ease-in-out;
     transform: scale(1.2);
@@ -190,7 +190,7 @@ canvas {
     font-weight: bolder;
 }
 
-.audioOnIcon {
+.btn-audio-on {
     width: 45px;
     height: 45px;
     position: absolute;
@@ -198,13 +198,13 @@ canvas {
     bottom: 10px;
 }
 
-.audioOnIcon:hover {
+.btn-audio-on:hover {
     cursor: pointer;
     transition: 225ms ease-in-out;
     transform: scale(1.2);
 }
 
-.audioOffIcon {
+.btn-audio-off {
     width: 45px;
     height: 45px;
     position: absolute;
@@ -212,7 +212,7 @@ canvas {
     bottom: 10px;
 }
 
-.audioOffIcon:hover {
+.btn-audio-off:hover {
     cursor: pointer;
     transition: 225ms ease-in-out;
     transform: scale(1.2);
@@ -228,14 +228,7 @@ canvas {
     position: relative;
 }
 
-.controls-container h2 {
-    color: rgb(172, 63, 23);
-    font-size: 35px;
-    margin-top: 15px;
-    margin-bottom: 20px;
-}
-
-.arrowBack {
+.btn-close {
     position: absolute;
     left: 10px;
     top: 10px;
@@ -243,7 +236,7 @@ canvas {
     height: 40px;
 }
 
-.arrowBack:hover {
+.btn-close:hover {
     cursor: pointer;
     transition: all 225ms ease-in-out;
     transform: scale(1.2);
@@ -257,28 +250,17 @@ canvas {
 .win-screen {
     width: 820px;
     height: 480px;
-    background-color:  hsl(24deg 100% 62% / 80%);
-}
-
-.win-screen h2 {
-    color: #515151;
-    font-size: 50px;
-    padding-top: 15px;
-    margin-top: 0;
-    text-align: center;
-    animation: scale-in-center 225ms cubic-bezier(0.250, 0.460, 0.450, 0.940) 100ms both;
+    background-color:  hsla(0, 0%, 48%, 0.5);
 }
 
 .img-trophy {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .img-trophy img {
-    position: absolute;
-    top: 45px;
     width: 375px;
-    padding-top: 15px;
     animation: scale-in-center 225ms cubic-bezier(0.250, 0.460, 0.450, 0.940) 100ms both;
 }
 
@@ -374,7 +356,7 @@ canvas {
         display: none;
     }
 
-    .audioOffIcon {
+    .btn-audio-off {
         width: 40px;
         height: 40px;
         position: absolute;
@@ -382,7 +364,7 @@ canvas {
         bottom: 10px;
     }
 
-    .audioOnIcon {
+    .btn-audio-on {
         width: 40px;
         height: 40px;
         position: absolute;
@@ -400,7 +382,7 @@ canvas {
 }
 
 @media (max-width: 690px) {
-    .audioOffIcon {
+    .btn-audio-off {
         width: 40px;
         height: 40px;
         position: absolute;
@@ -408,7 +390,7 @@ canvas {
         bottom: 10px;
     }
 
-    .audioOnIcon {
+    .btn-audio-on {
         width: 40px;
         height: 40px;
         position: absolute;
@@ -431,7 +413,7 @@ canvas {
 }
 
 @media (max-width: 550px) {
-    .audioOffIcon {
+    .btn-audio-off {
         width: 30px;
         height: 30px;
         position: absolute;
@@ -439,7 +421,7 @@ canvas {
         bottom: 8px;
     }
 
-    .audioOnIcon {
+    .btn-audio-on {
         width: 30px;
         height: 30px;
         position: absolute;
@@ -461,10 +443,16 @@ canvas {
         padding-left: 8px;
         padding-right: 8px;
     }
+
+    .game-controls {
+        width: 280px;
+        height: 360px;
+        margin-top: 60px;
+    }
 }
 
 @media (max-width: 450px) {
-    .audioOffIcon {
+    .btn-audio-off {
         width: 25px;
         height: 25px;
         position: absolute;
@@ -472,7 +460,7 @@ canvas {
         bottom: 7px;
     }
 
-    .audioOnIcon {
+    .btn-audio-on {
         width: 25px;
         height: 25px;
         position: absolute;
@@ -497,7 +485,7 @@ canvas {
 }
 
 @media (max-width: 370px) {
-    .audioOffIcon {
+    .btn-audio-off {
         width: 22px;
         height: 22px;
         position: absolute;
@@ -505,7 +493,7 @@ canvas {
         bottom: 5px;
     }
 
-    .audioOnIcon {
+    .btn-audio-on {
         width: 22px;
         height: 22px;
         position: absolute;
@@ -528,7 +516,7 @@ canvas {
 }
 
 @media (max-width: 300px) {
-    .audioOffIcon {
+    .btn-audio-off {
         width: 22px;
         height: 22px;
         position: absolute;
@@ -536,7 +524,7 @@ canvas {
         bottom: 5px;
     }
 
-    .audioOnIcon {
+    .btn-audio-on {
         width: 22px;
         height: 22px;
         position: absolute;
@@ -586,22 +574,10 @@ canvas {
     }
 }
 
-@media (max-width: 820px) {
-    .btn-plays {
-
-    }
-
-    .btn-controls {
-
-    }
-}
 
 @media (max-width: 690px) {
-
-    }
-
-    .btn-controls {
-
+    .btn-play, .btn-controls {
+        width: 80px;
     }
 
     .restart-game {
@@ -611,22 +587,17 @@ canvas {
         font-weight: normal;
     }
 
-    .btnMainMenu {
+    .btn-mainmenu {
         height: 40px;
         width: 150px;
         font-size: 26px;
         font-weight: normal;
     }
-
 }
 
 @media (max-width: 550px) {
-    .btn-plays {
-
-    }
-
-    .btn-controls {
-
+    .btn-play, .btn-controls {
+        width: 70px;
     }
 
     .endgame-actions {
@@ -645,38 +616,20 @@ canvas {
         font-size: 24px;
     }
 
-    .btnMainMenu {
+    .btn-mainmenu {
         height: 30px;
         width: 130px;
         font-size: 24px;
     }
 
-    .btn-plays {
-
-    }
-
-    .btn-controls {
-
+    .btn-play, .btn-controls {
+        width: 60px;
     }
 }
 
 @media (max-width: 370px) {
-    .btn-plays {
-
-    }
-
-    .btn-controls {
-
-    }
-}
-
-@media (max-width: 300px) {
-    .btn-play {
-
-    }
-
-    .btn-controls {
-
+    .btn-play, .btn-controls {
+        width: 40px;
     }
 }
 
@@ -812,8 +765,10 @@ canvas {
 }
 
 @media (max-width: 500px) {
-    .arrowBack {
-        left: 25px;
+    .btn-close {
+        width: 25px;
+        height: 25px;
+        top: 15px;
     }
 
     .keyboardButton {
@@ -830,11 +785,6 @@ canvas {
         font-size: 30px;
     }
 
-    .arrowBack {
-        width: 35px;
-        height: 35px;
-    }
-
     .keyboardButton {
         padding-right: 60px;
     }
@@ -847,12 +797,6 @@ canvas {
 @media (max-width: 420px) {
     .controls-container h2 {
         font-size: 25px;
-    }
-
-    .arrowBack {
-        top: 25px;
-        width: 30px;
-        height: 30px;
     }
 
     .keyboardButton {
@@ -887,7 +831,7 @@ canvas {
 
     }
 
-    .arrowBack {
+    .btn-close {
         top: 23px;
         width: 25px;
         height: 25px;
@@ -904,26 +848,5 @@ canvas {
     .keyboardIcon {
         padding-left: 25px;
         font-size: 20px;
-    }
-}
-
-@media (max-width: 310px) {
-    .controls-container h2 {
-        font-size: 18px;
-
-    }
-
-    .arrowBack {
-        width: 20px;
-        height: 20px;
-    }
-
-    .keyboardButton {
-        width: 30px;
-        height: 30px
-    }
-
-    .keyboardIcon {
-        font-size: 18px;
     }
 }

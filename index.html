@@ -56,7 +56,7 @@
             </div>
             <div class="endgame-actions">
                 <button onclick="restartGame()" id="restartGameWin" class="restart-game">Play again</button>
-                <button onclick="returnMainMenu()" id="btnMainMenuWinScreen" class="btnMainMenu">Main Menu</button>
+                <button onclick="returnMainMenu()" id="btnMainMenuWinScreen" class="btn-mainmenu">Main Menu</button>
             </div>
         </div>
 
@@ -65,7 +65,7 @@
             <img src="img/9_intro_outro_screens/game_over/gameover.png" class="gameOverScreen" id="gameOverScreen">
             <div class="endgame-actions">
                 <button onclick="restartGame()" id="restartGameOver" class="restart-game">Restart Game</button>
-                <button onclick="returnMainMenu()" id="btnMainMenuGameOverScreen" class="btnMainMenu">Main
+                <button onclick="returnMainMenu()" id="btnMainMenuGameOverScreen" class="btn-mainmenu">Main
                     Menu</button>
             </div>
         </div>
@@ -75,9 +75,8 @@
             <img src="img/icon/fullscreen.png" class="open-fullscreen d-none" onclick="openFullscreen()" id="openFullscreenIcon">
             <img src="img/icon/minimize.png" class="close-fullscreen d-none" onclick="closeFullscreen()" id="closeFullscreenIcon">
         
-            <!--Sound Buttons-->
-            <img src="img/icon/audio_on.png" class="btn-audio-on d-none" onclick="turnSoundOn()" id="audioOn">
-            <img src="img/icon/audio_off.png" class="btn-audio-off d-none" onclick="turnSoundOff()" id="audioOff">
+            <img src="img/icon/audio_on.png" class="btn-audio-on d-none" onclick="unmuteAllGameAudio()" id="audioOn">
+            <img src="img/icon/audio_off.png" class="btn-audio-off d-none" onclick="muteAllGameAudio()" id="audioOff">
         </div>
         
     </div>
