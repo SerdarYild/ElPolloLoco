@@ -1,9 +1,18 @@
 class Endboss extends MovableObject {
     x = 4800;
     y = 95;
-    width = 320;
-    height = 360;
+    width = 300;
+    height = 350;
     speed = 15;
+    hadFirstContact = false;
+    intervalIds = [];
+    offset = {
+        top: 100,
+        bottom: 50,
+        left: 40,
+        right: 40,
+    };
+
     imagesWalkingEndboss = [
         'img/4_enemie_boss_chicken/1_walk/G1.png',
         'img/4_enemie_boss_chicken/1_walk/G2.png',
@@ -40,14 +49,6 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G25.png',
         'img/4_enemie_boss_chicken/5_dead/G26.png',
     ];
-    offset = {
-        top: 100,
-        bottom: 50,
-        left: 40,
-        right: 40,
-    }
-    hadFirstContact = false;
-    intervalIds = [];
 
     constructor() {
         super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');
@@ -56,52 +57,51 @@ class Endboss extends MovableObject {
         this.loadImages(this.imagesAttackEndboss);
         this.loadImages(this.imagesHurtEndboss);
         this.loadImages(this.imagesDeadEndboss);
-        this.animateEndboss();
+        this.animate();
     }
 
     /**
-     * This Function Animate basically the Endboss Class.
+     * This function animates the Endboss.
      */
-    animateEndboss() {
+    animate() {
         let i = 0;
         setStopableInterval(() => {
             this.playEndboss(i);
             i++;
-            if (this.endbossReached()) {
+            if (this.hasReached()) {
                 i = 0;
                 this.hadFirstContact = true;
-                this.playBackgroundMusicEndboss();
+                this.playBackgroundMusic();
             }
         }, 120);
     }
 
     /**
-     * This Function Play the Endboss with different Animations.
+     * This function plays the Endboss with different animations.
      * 
-     * @param {number} i - The Current number for Play the Intro Animation from Endboss. 
+     * @param {number} i - The current number for playing the intro animation of the Endboss. 
      */
     playEndboss(i) {
         if (i < 20) {
             this.playAnimationMo(this.imagesAlertEndboss);
-        } else if (!this.isDead() && !this.isHurtEndboss() && this.endbossFightBegins()) {
+        } else if (!this.isDead() && !this.isHurt() && this.fightBegins()) {
             this.playAnimationMo(this.imagesWalkingEndboss);
             this.moveLeft();
-        } else if (this.isHurtEndboss()) {
+        } else if (this.isHurt()) {
             this.playAnimationMo(this.imagesHurtEndboss);
         } else if (this.isDead()) {
             this.playAnimationMo(this.imagesDeadEndboss);
             setTimeout(() => {
-                this.gameIsWin();
+                this.winGame();
             }, 1000);
         }
-        this.endBossInRageMode();
+        this.enterRageMode();
     }
 
     /**
-     * This Function show the Game Over Screen, after the Endboss was beaten.
-     * 
+     * This function shows the game over screen after the Endboss is defeated.
      */
-    gameIsWin() {
+    winGame() {
         audioGameWin.play();
         clearAllIntervals();
         resetBackgroundMusic();
@@ -109,10 +109,9 @@ class Endboss extends MovableObject {
     }
 
     /**
-     * This Function play the Endboss Backgroundmusic while the Bossfight.
-     * 
+     * This function plays the Endboss background music during the boss fight.
      */
-    playBackgroundMusicEndboss() {
+    playBackgroundMusic() {
         audioBackgroundMusicEndboss.volume = 0.2;
         audioBackgroundMusicEndboss.play();
         audioBackgroundMusicEndboss.loop = true;
@@ -120,38 +119,41 @@ class Endboss extends MovableObject {
     }
 
     /**
-     * This Function double the Movement Speed from the Endboss.
-     * 
+     * This function doubles the movement speed of the Endboss.
      */
-    endBossInRageMode() {
-        if (this.endBossBeginToRage()) {
-            this.doubleMovementSpeedEndBoss();
+    enterRageMode() {
+        if (this.shouldRage()) {
+            this.doubleSpeed();
         }
     }
 
     /**
-     * This Function triggers the Intro Animation from the Endboss Class.
+     * This function triggers the intro animation of the Endboss.
      * 
-     * @returns {boolean} Return True or False, depending on the Character Class is near enough to the Endboss Class.
+     * @returns {boolean} Returns true or false, depending on whether the character is close enough to the Endboss.
      */
-    endbossReached() {
+    hasReached() {
         return world.character.x > 4000 && !this.hadFirstContact;
     }
 
     /**
-     * This Function use to begin the Boss fight.
+     * This function starts the boss fight.
      * 
-     * @returns {boolean} Return True or False, depending on the Character Class is near enough to the Endboss Class.
+     * @returns {boolean} Returns true or false, depending on whether the character is close enough to the Endboss.
      */
-    endbossFightBegins() {
+    fightBegins() {
         return world.character.x > world.level.endboss[0].x - 1000;
     }
 
-    endBossBeginToRage() {
+    shouldRage() {
         return world.level.endboss[0].energy < 50;
     }
 
-    doubleMovementSpeedEndBoss() {
+    doubleSpeed() {
         world.level.endboss[0].speed = 30;
+    }
+
+    isHurt() {
+        return this.isHurtEndboss();
     }
 }
