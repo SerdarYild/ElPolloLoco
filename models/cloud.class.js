@@ -7,14 +7,14 @@ class Cloud extends MovableObject {
     constructor(imagePath, x) {
         super().loadImage(imagePath, x);
         this.x = x;
-        this.animateClouds();
+        this.animate();
     }
 
     /**
      * This Function Animate the Cloud Class.
      */
-    animateClouds() {
-        setStopableInterval(() => {
+    animate() {
+        setInterval(() => {
             this.moveLeft();
         }, 15);
     }
