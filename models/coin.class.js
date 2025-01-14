@@ -18,14 +18,14 @@ class Coin extends MovableObject {
         this.x = 300 + Math.random() * 3500;
         this.y = 100 + Math.random() * 100;
         this.loadImages(this.imagesCoins);
-        this.animateCoins();
+        this.animate();
     }
 
     /**
      * This Function Animate the Coins.
      */
-    animateCoins() {
-        setStopableInterval(() => {
+    animate() {
+        setInterval(() => {
             this.playAnimationMo(this.imagesCoins)
         }, 350);
     }
