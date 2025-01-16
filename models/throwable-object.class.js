@@ -1,11 +1,11 @@
 class ThrowableObject extends MovableObject {
-    imagesRotatingBottle = [
+    IMAGE_BOTTLE_ROTATION = [
         'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png',
     ];
-    imagesSplashBottle = [
+    IMAGE_BOTTLE_SPLASH = [
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png',
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/3_bottle_splash.png',
@@ -17,8 +17,8 @@ class ThrowableObject extends MovableObject {
 
     constructor(x, y, otherDirection) {
         super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
-        this.loadImages(this.imagesRotatingBottle);
-        this.loadImages(this.imagesSplashBottle);
+        this.loadImages(this.IMAGE_BOTTLE_ROTATION);
+        this.loadImages(this.IMAGE_BOTTLE_SPLASH);
         this.throwBottle();
         this.width = 120;
         this.height = 100;
@@ -34,13 +34,12 @@ class ThrowableObject extends MovableObject {
     throwBottle() {
         this.addGravityToBottle();
         this.animateBottle();
-        // this.animateSplashBottle();
     }
 
     addGravityToBottle() {
         this.speedY = 20;
         this.addGravity();
-        setStopableInterval(() => {
+        performInterval(() => {
             if (this.otherDirection) {
                 this.x -= 12;
             } else {
@@ -51,11 +50,11 @@ class ThrowableObject extends MovableObject {
     }
 
     animateBottle() {
-        setStopableInterval(() => {
+        performInterval(() => {
             if (!world.level.endboss[0].isHurtEndboss()) {
-                this.playAnimationMo(this.imagesRotatingBottle);
+                this.playAnimationMo(this.IMAGE_BOTTLE_ROTATION);
             } else {
-                this.playAnimationMo(this.imagesSplashBottle);
+                this.playAnimationMo(this.IMAGE_BOTTLE_SPLASH);
             }
         }, 1000 / 25);
     }

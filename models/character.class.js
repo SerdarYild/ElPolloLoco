@@ -4,7 +4,6 @@ class Character extends MovableObject {
     width = 100;
     height = 200;
     speed = 15;
-    canThrowBottle = true;
     offset = {
         top: 70,
         bottom: 10,
@@ -13,7 +12,11 @@ class Character extends MovableObject {
     }
     intervalIds = [];
     characterTimeToSleep = 0;
-    imagesWalkingCharacter = [
+    world;
+    keyboard;
+    endOfLevelX = 4500;
+
+    IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
         'img/2_character_pepe/2_walk/W-22.png',
         'img/2_character_pepe/2_walk/W-23.png',
@@ -21,7 +24,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/2_walk/W-25.png',
         'img/2_character_pepe/2_walk/W-26.png',
     ];
-    imagesJumpingCharacter = [
+    IMAGES_JUMP = [
         'img/2_character_pepe/3_jump/J-31.png',
         'img/2_character_pepe/3_jump/J-32.png',
         'img/2_character_pepe/3_jump/J-33.png',
@@ -32,7 +35,21 @@ class Character extends MovableObject {
         'img/2_character_pepe/3_jump/J-38.png',
         'img/2_character_pepe/3_jump/J-39.png',
     ];
-    imagesIdleCharacter = [
+    IMAGES_HURT = [
+        'img/2_character_pepe/4_hurt/H-41.png',
+        'img/2_character_pepe/4_hurt/H-42.png',
+        'img/2_character_pepe/4_hurt/H-43.png',
+    ];
+    IMAGES_DEAD = [
+        'img/2_character_pepe/5_dead/D-51.png',
+        'img/2_character_pepe/5_dead/D-52.png',
+        'img/2_character_pepe/5_dead/D-53.png',
+        'img/2_character_pepe/5_dead/D-54.png',
+        'img/2_character_pepe/5_dead/D-55.png',
+        'img/2_character_pepe/5_dead/D-56.png',
+        'img/2_character_pepe/5_dead/D-57.png',
+    ];
+    IMAGES_IDLE = [
         'img/2_character_pepe/1_idle/idle/I-1.png',
         'img/2_character_pepe/1_idle/idle/I-2.png',
         'img/2_character_pepe/1_idle/idle/I-3.png',
@@ -44,7 +61,7 @@ class Character extends MovableObject {
         'img/2_character_pepe/1_idle/idle/I-9.png',
         'img/2_character_pepe/1_idle/idle/I-10.png',
     ];
-    imagesLongIdleCharacter = [
+    IMAGES_LONG_IDLE = [
         'img/2_character_pepe/1_idle/long_idle/I-11.png',
         'img/2_character_pepe/1_idle/long_idle/I-12.png',
         'img/2_character_pepe/1_idle/long_idle/I-13.png',
@@ -56,52 +73,49 @@ class Character extends MovableObject {
         'img/2_character_pepe/1_idle/long_idle/I-19.png',
         'img/2_character_pepe/1_idle/long_idle/I-20.png',
     ];
-    imagesHurtCharacter = [
-        'img/2_character_pepe/4_hurt/H-41.png',
-        'img/2_character_pepe/4_hurt/H-42.png',
-        'img/2_character_pepe/4_hurt/H-43.png',
-    ];
-    imagesDeadCharacter = [
-        'img/2_character_pepe/5_dead/D-51.png',
-        'img/2_character_pepe/5_dead/D-52.png',
-        'img/2_character_pepe/5_dead/D-53.png',
-        'img/2_character_pepe/5_dead/D-54.png',
-        'img/2_character_pepe/5_dead/D-55.png',
-        'img/2_character_pepe/5_dead/D-56.png',
-        'img/2_character_pepe/5_dead/D-57.png',
-    ];
 
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
-        this.loadImages(this.imagesWalkingCharacter);
-        this.loadImages(this.imagesJumpingCharacter);
-        this.loadImages(this.imagesHurtCharacter);
-        this.loadImages(this.imagesDeadCharacter);
-        this.loadImages(this.imagesIdleCharacter);
-        this.loadImages(this.imagesLongIdleCharacter);
+        this.loadImages(this.IMAGES_WALKING);
+        this.loadImages(this.IMAGES_JUMP);
+        this.loadImages(this.IMAGES_HURT);
+        this.loadImages(this.IMAGES_DEAD);
+        this.loadImages(this.IMAGES_JUMP);
+        this.loadImages(this.IMAGES_LONG_IDLE);
+        this.canThrowBottle = true;
         this.animateCharacter();
         this.addGravity();
     }
 
+    /**
+     * This Function Animate the Character.
+     */
     animateCharacter() {
-        setStopableInterval(() => this.characterMove(), 1000 / 25);
-        setStopableInterval(() => this.playCharacter(), 150);
+        performInterval(() => this.characterMove(), 1000 / 25);
+        performInterval(() => this.playCharacter(), 150);
     }
 
-    characterMove() { 
-        if (this.characterCanMoveRight()) 
-            this.characterMoveRight(); 
-        if (this.characterCanMoveLeft()) 
-            this.characterMoveLeft(); 
-        if (this.characterCanJump()) 
-            this.characterJump(); 
-        this.scrollTheMap(); 
+    /**
+     * This Function is used to animate the move from the Character Class.
+     */
+    characterMove() {
+        if (this.characterCanMoveRight())
+            this.characterMoveRight();
+        if (this.characterCanMoveLeft())
+            this.characterMoveLeft();
+        if (this.characterCanJump())
+            this.characterJump();
+
+        this.scrollTheMap();
     }
-    
+
     characterCanMoveRight() {
-        return this.world.keyboard.right && this.x < this.world.level.levelEndX;
+        return this.world.keyboard.right && this.x < 4500;
     }
 
+    /**
+       * This Function is used to move the Character Class right and play Sound while the Character Class is moving right. 
+       */
     characterMoveRight() {
         this.otherDirection = false;
         this.moveRight();
@@ -112,6 +126,10 @@ class Character extends MovableObject {
         return this.world.keyboard.left && this.x > 0;
     }
 
+    /**
+    * This Function is used to move the Character Class left and play Sound while the Character Class is moving left. 
+    * 
+    */
     characterMoveLeft() {
         this.otherDirection = true;
         this.moveLeft();
@@ -122,72 +140,85 @@ class Character extends MovableObject {
         return this.world.keyboard.space && !this.isAboveGround();
     }
 
+    /**
+    * This Function is used to jump the Character Class and play Sound while the Character Class is jumping. 
+    */
     characterJump() {
         this.jump();
         audioJumpCharacter.play();
         audioJumpCharacter.volume = 0.3;
     }
 
+    /**
+     * This Function is used to in order to the Character Class comes up while jumping.
+     */
     jump() {
         this.speedY = 30;
     }
-    
-    /**
-     * This Function scroll the Map, with the Character Class, if he is moving.
-     */
-    scrollTheMap() {
-        this.world.cameraX = -this.x + 30;
-    }
 
-      /**
+    /**
      * This Function Play the Animation from the Character Class for example, if he is Jumping.
      */
-      playCharacter() {
+    playCharacter() {
         if (this.isHurtCharacter()) {
             this.characterHurt();
         } else if (this.isDead()) {
             this.gameIsLost();
         } else if (this.isNotAboveGround()) {
-            this.characterJumpingAnimation();
+            this.jumpAnimation();
         } else if (this.characterCanMoveRight() || this.characterCanMoveLeft()) {
             this.characterMoveAnimation();
         } else {
             this.characterSleepAnimation();
         }
-    }  
+    }
 
+    /**
+     * This Function play the Hurt Animation from the Character Class, as soon as he take damage.
+     */
     characterHurt() {
-        this.playAnimationMo(this.imagesHurtCharacter);
+        this.playAnimationMo(this.IMAGES_HURT);
         audioHurtCharacter.play();
     }
 
+    /**
+ * This Function show the Game Over Screen.
+ */
     gameIsLost() {
-        this.playAnimationMo(this.imagesDeadCharacter);
+        this.playAnimationMo(this.IMAGES_DEAD);
         audioGameLost.play();
         clearAllIntervals();
         resetBackgroundMusic();
         showGameOverScreen();
     }
 
-    characterJumpingAnimation() {
-        this.playAnimationMo(this.imagesJumpingCharacter);
+    jumpAnimation() {
+        this.playAnimationMo(this.IMAGES_JUMP);
     }
 
+    /**
+     * This Function play the move left Animation from the Character
+     */
     characterMoveAnimation() {
-        this.playAnimationMo(this.imagesWalkingCharacter);
+        this.playAnimationMo(this.IMAGES_WALKING);
     }
 
     characterSleepAnimation() {
-        this.playAnimationMo(this.imagesIdleCharacter);
+        this.playAnimationMo(this.IMAGES_LONG_IDLE);
     }
 
-    throwBottle() { 
-        let bottle = new ThrowableObject(this.x, this.y, this.otherDirection); 
-        this.world.throwableObject.push(bottle); 
-        audioThrowBottle.play(); 
-        this.canThrowBottle = false;
-        setTimeout(() => { 
-            this.canThrowBottle = true;
-        }, 1000); 
+    /**
+ * This Function scroll the Map, with the Character Class, if he is moving.
+ */
+    scrollTheMap() {
+        if (this.x < this.world.level.levelEndX) {
+            this.world.cameraX = -this.x + 30;
+        } else {
+            this.world.cameraX = -this.world.level.levelEndX + 30;
+        }
+    }
+
+    characterCanThrowBottle() {
+        return this.world.keyboard.d && this.canThrowBottle;
     }
 }

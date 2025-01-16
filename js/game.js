@@ -4,7 +4,7 @@ let keyboard = new Keyboard();
 let audioBackgroundMusicInGame = new Audio('audio/elpolloloco.mp3');
 let audioWalkCharacter = new Audio('audio/running.mp3');
 let audioJumpCharacter = new Audio('audio/jump.mp3');
-let audioHurtCharacter = new Audio('audio/pepe_hurt.mp3');
+let audioHurtCharacter = new Audio('audio/character_hurt.mp3');
 let audioGameLost = new Audio('audio/gameover.mp3');
 let audioCoinCollected = new Audio('audio/coin.mp3');
 let audioBottleCollected = new Audio('audio/bottle.mp3');
@@ -19,15 +19,13 @@ let intervalIds = [];
  * 
  */
 function startGame() {
-    setTimeout(() => {
-        initLevel();
-        showGameDisplay();
-        showSoundBtns();
-        showFullscreenBtn();
-        canvas = document.getElementById('canvas');
-        world = new World(canvas, keyboard);
-        playBackgroundMusic();
-    }, 1000);
+    initLevel();
+    showGameDisplay();
+    showSoundBtns();
+    showFullscreenBtn();
+    canvas = document.getElementById('canvas');
+    world = new World(canvas, keyboard);
+    playBackgroundMusic();
 }
 
 /**
@@ -55,7 +53,7 @@ function showSoundBtns() {
  * 
  */
 function showFullscreenBtn() {
-    const fullscreenButton = document.getElementById('openFullscreenIcon');
+    let fullscreenButton = document.getElementById('openFullscreenIcon');
 
     if (fullscreenButton) {
         fullscreenButton.classList.remove('d-none');
@@ -123,7 +121,7 @@ function showGameOverScreen() {
         document.getElementById('openFullscreenIcon').classList.add('d-none');
         document.getElementById('closeFullscreenIcon').classList.add('d-none');
         resetBackgroundMusic();
-    }, 1500);
+    }, 1000);
 }
 
 /**
@@ -139,7 +137,7 @@ function showWinScreen() {
         document.getElementById('openFullscreenIcon').classList.add('d-none');
         document.getElementById('closeFullscreenIcon').classList.add('d-none');
         resetBackgroundMusic();
-    }, 1500);
+    }, 1000);
 }
 
 /**
@@ -151,7 +149,7 @@ function resetBackgroundMusic() {
     audioBackgroundMusicEndboss.pause();
 }
 
-function setStopableInterval(fn, time) {
+function performInterval(fn, time) {
     intervalIds.push(setInterval(fn, time));
 }
 
@@ -210,6 +208,7 @@ function muteAllGameAudio() {
     audioCoinCollected.muted = true;
     audioBottleCollected.muted = true;
     audioThrowBottle.muted = true;
+    audioGameWin.muted = true;
 }
 
 /**
@@ -227,6 +226,7 @@ function unmuteAllGameAudio() {
     audioCoinCollected.muted = false;
     audioBottleCollected.muted = false;
     audioThrowBottle.muted = false;
+    audioGameWin.muted = true;
 }
 
 /**

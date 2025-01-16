@@ -8,10 +8,6 @@ class Keyboard {
         this.eventKeyboardBtns();
     }
 
-    /**
-    * This Function triggered a key event listener, by triggered keystroke and release the Button.
-    * 
-    */
     eventKeyboardBtns() {
         window.addEventListener('keydown', (event) => {
             if (event.keyCode == 37) {

@@ -18,6 +18,7 @@ class World {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.draw();
         this.setWorld();
         this.checkCollisionsMo();
         this.checkCollisionsBottle();
@@ -40,7 +41,6 @@ checkThrowObjects() {
         }, 1000); 
     } 
 }
-
 
     /**
      * This Function draw all in the Canvas.
@@ -132,7 +132,7 @@ checkThrowObjects() {
      *  
      */
     checkCollisionsMo() {
-        setStopableInterval(() => {
+        performInterval(() => {
             this.checkCollisionsChicken();
             this.checkCollisionsEndboss();
             this.checkCollectedCoins();
@@ -144,7 +144,7 @@ checkThrowObjects() {
      * This Function are for the Collisions with the Throwing Bottle.
      */
     checkCollisionsBottle() {
-        setStopableInterval(() => {
+        performInterval(() => {
             this.checkThrowObjects();
             this.checkCollisionWithBottleEndboss();
         }, 230);

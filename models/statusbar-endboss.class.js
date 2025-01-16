@@ -1,7 +1,7 @@
 class StatusbarEndbossHealth extends Statusbar {
     x = 560;
     y = 0;
-    imagesStatusbar = [
+    IMAGES_STATUSBAR = [
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/40.png',
@@ -11,7 +11,7 @@ class StatusbarEndbossHealth extends Statusbar {
     ];
 
     constructor() {
-        super().loadImages(this.imagesStatusbar);
+        super().loadImages(this.IMAGES_STATUSBAR);
         this.setPercentage(100);
     }
 }

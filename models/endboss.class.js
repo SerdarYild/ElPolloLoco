@@ -1,8 +1,8 @@
 class Endboss extends MovableObject {
     x = 4800;
     y = 95;
-    width = 300;
-    height = 350;
+    width = 310;
+    height = 340;
     speed = 15;
     hadFirstContact = false;
     intervalIds = [];
@@ -13,13 +13,13 @@ class Endboss extends MovableObject {
         right: 40,
     };
 
-    imagesWalkingEndboss = [
+    IMAGES_BOSS_WALK = [
         'img/4_enemie_boss_chicken/1_walk/G1.png',
         'img/4_enemie_boss_chicken/1_walk/G2.png',
         'img/4_enemie_boss_chicken/1_walk/G3.png',
         'img/4_enemie_boss_chicken/1_walk/G4.png',
     ];
-    imagesAlertEndboss = [
+    IMAGES_BOSS_ALERT = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
         'img/4_enemie_boss_chicken/2_alert/G6.png',
         'img/4_enemie_boss_chicken/2_alert/G7.png',
@@ -52,8 +52,8 @@ class Endboss extends MovableObject {
 
     constructor() {
         super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');
-        this.loadImages(this.imagesWalkingEndboss);
-        this.loadImages(this.imagesAlertEndboss);
+        this.loadImages(this.IMAGES_BOSS_WALK);
+        this.loadImages(this.IMAGES_BOSS_ALERT);
         this.loadImages(this.imagesAttackEndboss);
         this.loadImages(this.imagesHurtEndboss);
         this.loadImages(this.imagesDeadEndboss);
@@ -65,7 +65,7 @@ class Endboss extends MovableObject {
      */
     animate() {
         let i = 0;
-        setStopableInterval(() => {
+        performInterval(() => {
             this.playEndboss(i);
             i++;
             if (this.hasReached()) {
@@ -83,9 +83,9 @@ class Endboss extends MovableObject {
      */
     playEndboss(i) {
         if (i < 20) {
-            this.playAnimationMo(this.imagesAlertEndboss);
+            this.playAnimationMo(this.IMAGES_BOSS_ALERT);
         } else if (!this.isDead() && !this.isHurt() && this.fightBegins()) {
-            this.playAnimationMo(this.imagesWalkingEndboss);
+            this.playAnimationMo(this.IMAGES_BOSS_WALK);
             this.moveLeft();
         } else if (this.isHurt()) {
             this.playAnimationMo(this.imagesHurtEndboss);
