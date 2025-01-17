@@ -119,7 +119,7 @@ class Character extends MovableObject {
     characterMoveRight() {
         this.otherDirection = false;
         this.moveRight();
-        audioWalkCharacter.play();
+        runningAudio.play();
     }
 
     characterCanMoveLeft() {
@@ -133,7 +133,7 @@ class Character extends MovableObject {
     characterMoveLeft() {
         this.otherDirection = true;
         this.moveLeft();
-        audioWalkCharacter.play();
+        runningAudio.play();
     }
 
     characterCanJump() {
@@ -145,8 +145,8 @@ class Character extends MovableObject {
     */
     characterJump() {
         this.jump();
-        audioJumpCharacter.play();
-        audioJumpCharacter.volume = 0.3;
+        jumpAudio.play();
+        jumpAudio.volume = 0.3;
     }
 
     /**
@@ -178,7 +178,7 @@ class Character extends MovableObject {
      */
     characterHurt() {
         this.playAnimationMo(this.IMAGES_HURT);
-        audioHurtCharacter.play();
+        hurtAudio.play();
     }
 
     /**
@@ -186,9 +186,9 @@ class Character extends MovableObject {
  */
     gameIsLost() {
         this.playAnimationMo(this.IMAGES_DEAD);
-        audioGameLost.play();
+        gameoverAudio.play();
         clearAllIntervals();
-        resetBackgroundMusic();
+        pauseGameSound();
         showGameOverScreen();
     }
 

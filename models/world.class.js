@@ -20,27 +20,27 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
-        this.checkCollisionsMo();
+        this.checkCollisions();
         this.checkCollisionsBottle();
         this.startGameLoop();
     }
-    
-/** * This Function check if the Throwing Bottle is activate. */ 
-checkThrowObjects() { 
-    if (this.keyboard.d && this.character.canThrowBottle && this.maxBottlesToThrow > 0) { 
-        let bottle = new ThrowableObject(this.character.x, this.character.y, this.character.otherDirection); 
-        this.throwableObject.push(bottle); 
-        audioThrowBottle.play(); 
-        this.maxBottlesToThrow--; 
-        this.character.reduceProgressbarBottleThroughThrow(); 
-        this.statusbarBottle.setPercentage(this.character.progessBottleBar); 
-        this.character.canThrowBottle = false;
 
-        setTimeout(() => { 
-            this.character.canThrowBottle = true; 
-        }, 1000); 
-    } 
-}
+    /** * This Function check if the Throwing Bottle is activate. */
+    checkThrowObjects() {
+        if (this.keyboard.d && this.character.canThrowBottle && this.maxBottlesToThrow > 0) {
+            let bottle = new ThrowableObject(this.character.x, this.character.y, this.character.otherDirection);
+            this.throwableObject.push(bottle);
+            throwAudio.play();
+            this.maxBottlesToThrow--;
+            this.character.reduceProgressbarBottleThroughThrow();
+            this.statusbarBottle.setPercentage(this.character.progessBottleBar);
+            this.character.canThrowBottle = false;
+
+            setTimeout(() => {
+                this.character.canThrowBottle = true;
+            }, 1000);
+        }
+    }
 
     /**
      * This Function draw all in the Canvas.
@@ -54,14 +54,14 @@ checkThrowObjects() {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
         this.ctx.translate(-this.cameraX, 0);
-        
+
         this.addToMap(this.statusbarHealth);
         this.addToMap(this.statusbarCoin);
         this.addToMap(this.statusbarBottle);
         this.addToMap(this.statusbarEndbossHealth);
         this.addToMap(this.statusbarIconEndboss);
         this.ctx.translate(this.cameraX, 0);
-        
+
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.endboss);
@@ -77,12 +77,7 @@ checkThrowObjects() {
     }
 
     startGameLoop() {
-        setInterval(() => this.update(), 1000 / 60);
         this.gameLoop();
-    }
-
-    update() {
-
     }
 
     /**
@@ -131,7 +126,7 @@ checkThrowObjects() {
      * functions check collisions for various game objects
      *  
      */
-    checkCollisionsMo() {
+    checkCollisions() {
         performInterval(() => {
             this.checkCollisionsChicken();
             this.checkCollisionsEndboss();
@@ -158,7 +153,7 @@ checkThrowObjects() {
         this.level.enemies.forEach(enemy => {
             if (this.character.isColliding(enemy) && !this.character.isHurtCharacter()) {
                 if (this.character.isAboveGround()) {
-                    this.killChickenWithJumpFromTop(enemy);
+                    this.jumpAndKillChicken(enemy);
                 } else {
                     this.character.hitCharacter()
                     this.statusbarHealth.setPercentage(this.character.energy);
@@ -172,14 +167,14 @@ checkThrowObjects() {
      * 
      * @param {string} enemy 
      */
-    killChickenWithJumpFromTop(enemy) {
+    jumpAndKillChicken(enemy) {
         enemy.chickenKilled();
         this.character.speedY = 30;
-        audioDeadChicken.play();
-        audioDeadChicken.volume = 0.3
+        chickenAudio.play();
+        chickenAudio.volume = 0.3
         setTimeout(() => {
-            this.eraseEnemyFromArray(enemy);
-        }, 1000/60);
+            this.deleteCurrentEnemy(enemy);
+        }, 1000 / 60);
     }
 
     /**
@@ -204,7 +199,7 @@ checkThrowObjects() {
             if (this.character.isCollected(coin)) {
                 this.coinCollected(coin);
                 this.character.raiseProgressbarCoin();
-                audioCoinCollected.play();
+                coinAudio.play();
                 this.statusbarCoin.setPercentage(this.character.progessCoinBar);
             }
         });
@@ -229,7 +224,7 @@ checkThrowObjects() {
             if (this.character.isCollected(bottle)) {
                 this.bottleCollected(bottle);
                 this.character.raiseProgressbarBottle();
-                audioBottleCollected.play();
+                bottleAudio.play();
                 this.statusbarBottle.setPercentage(this.character.progessBottleBar);
             }
         });
@@ -254,19 +249,19 @@ checkThrowObjects() {
             this.level.endboss.forEach(endboss => {
                 if (bottle.isColliding(endboss)) {
                     endboss.hitEndboss(endboss.energy);
-                    this.playSoundEndbossHit();
+                    this.playEndbossSound();
                     this.statusbarEndbossHealth.setPercentage(world.level.endboss[0].energy);
                     setTimeout(() => {
-                        this.eraseThrowingBottleFromArray(bottle);
+                        this.removesBottleFromArray(bottle);
                     }, 180);
                 }
             });
         });
     }
 
-    playSoundEndbossHit() {
-        audioDeadChicken.volume = 0.3;
-        audioDeadChicken.play();
+    playEndbossSound() {
+        chickenAudio.volume = 0.3;
+        chickenAudio.play();
     }
 
     /**
@@ -290,12 +285,13 @@ checkThrowObjects() {
         this.ctx.restore();
         mo.x = mo.x * -1;
     }
+
     /**
      * This Function clear the current enemy from the Array.
      * 
      * @param {string} enemy 
      */
-    eraseEnemyFromArray(enemy) {
+    deleteCurrentEnemy(enemy) {
         let i = this.level.enemies.indexOf(enemy);
         this.level.enemies.splice(i, 1);
     }
@@ -305,7 +301,7 @@ checkThrowObjects() {
     * 
     * @param {string} bottle - This is the Current bottle from the Array. 
     */
-    eraseThrowingBottleFromArray(bottle) {
+    removesBottleFromArray(bottle) {
         let i = this.throwableObject.indexOf(bottle);
         this.throwableObject.splice(i, 1);
     }

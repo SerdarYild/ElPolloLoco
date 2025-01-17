@@ -1,17 +1,17 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let audioBackgroundMusicInGame = new Audio('audio/elpolloloco.mp3');
-let audioWalkCharacter = new Audio('audio/running.mp3');
-let audioJumpCharacter = new Audio('audio/jump.mp3');
-let audioHurtCharacter = new Audio('audio/character_hurt.mp3');
-let audioGameLost = new Audio('audio/gameover.mp3');
-let audioCoinCollected = new Audio('audio/coin.mp3');
-let audioBottleCollected = new Audio('audio/bottle.mp3');
-let audioThrowBottle = new Audio('audio/throw.mp3');
-let audioGameWin = new Audio('audio/win.mp3');
-let audioDeadChicken = new Audio('audio/chicken_small.mp3');
-let audioBackgroundMusicEndboss = new Audio('audio/endboss.mp3');
+let elpollolocoAudio = new Audio('audio/elpolloloco.mp3');
+let runningAudio = new Audio('audio/running.mp3');
+let jumpAudio = new Audio('audio/jump.mp3');
+let hurtAudio = new Audio('audio/character_hurt.mp3');
+let gameoverAudio = new Audio('audio/gameover.mp3');
+let coinAudio = new Audio('audio/coin.mp3');
+let bottleAudio = new Audio('audio/bottle.mp3');
+let throwAudio = new Audio('audio/throw.mp3');
+let wonAudio = new Audio('audio/win.mp3');
+let chickenAudio = new Audio('audio/chicken_small.mp3');
+let endbossAudio = new Audio('audio/endboss.mp3');
 let intervalIds = [];
 
 /**
@@ -65,9 +65,9 @@ function showFullscreenBtn() {
  * 
  */
 function playBackgroundMusic() {
-    audioBackgroundMusicInGame.volume = 0.2;
-    audioBackgroundMusicInGame.play();
-    audioBackgroundMusicInGame.loop = true;   
+    elpollolocoAudio.volume = 0.2;
+    elpollolocoAudio.play();
+    elpollolocoAudio.loop = true;   
 }
 
 /**
@@ -85,7 +85,7 @@ function restartGame() {
     document.getElementById('openFullscreenIcon').classList.remove('d-none');
 
     clearAllIntervals();
-    resetBackgroundMusic();
+    pauseGameSound();
     startGame();
 
     document.getElementById('canvas').classList.remove('d-none');
@@ -105,7 +105,7 @@ function returnMainMenu() {
     document.getElementById('controlGuide').classList.remove('d-none');
     document.getElementById('openFullscreenIcon').classList.add('d-none');
     closeFullscreen();
-    resetBackgroundMusic();
+    pauseGameSound();
 }
 
 /**
@@ -120,7 +120,7 @@ function showGameOverScreen() {
         document.getElementById('audioOn').classList.add('d-none');
         document.getElementById('openFullscreenIcon').classList.add('d-none');
         document.getElementById('closeFullscreenIcon').classList.add('d-none');
-        resetBackgroundMusic();
+        pauseGameSound();
     }, 1000);
 }
 
@@ -136,7 +136,7 @@ function showWinScreen() {
         document.getElementById('audioOn').classList.add('d-none');
         document.getElementById('openFullscreenIcon').classList.add('d-none');
         document.getElementById('closeFullscreenIcon').classList.add('d-none');
-        resetBackgroundMusic();
+        pauseGameSound();
     }, 1000);
 }
 
@@ -144,9 +144,9 @@ function showWinScreen() {
  * This Function stop Sound.
  * 
  */
-function resetBackgroundMusic() {
-    audioBackgroundMusicInGame.pause();
-    audioBackgroundMusicEndboss.pause();
+function pauseGameSound() {
+    elpollolocoAudio.pause();
+    endbossAudio.pause();
 }
 
 function performInterval(fn, time) {
@@ -198,17 +198,17 @@ function closeFullscreen() {
  * 
  */
 function muteAllGameAudio() {
-    audioBackgroundMusicEndboss.muted = true;
-    audioBackgroundMusicInGame.muted = true;
-    audioDeadChicken.muted = true;
-    audioWalkCharacter.muted = true;
-    audioJumpCharacter.muted = true;
-    audioHurtCharacter.muted = true;
-    audioGameLost.muted = true;
-    audioCoinCollected.muted = true;
-    audioBottleCollected.muted = true;
-    audioThrowBottle.muted = true;
-    audioGameWin.muted = true;
+    endbossAudio.muted = true;
+    elpollolocoAudio.muted = true;
+    chickenAudio.muted = true;
+    runningAudio.muted = true;
+    jumpAudio.muted = true;
+    hurtAudio.muted = true;
+    gameoverAudio.muted = true;
+    coinAudio.muted = true;
+    bottleAudio.muted = true;
+    throwAudio.muted = true;
+    wonAudio.muted = true;
 }
 
 /**
@@ -216,17 +216,17 @@ function muteAllGameAudio() {
  * 
  */
 function unmuteAllGameAudio() {
-    audioBackgroundMusicEndboss.muted = false;
-    audioBackgroundMusicInGame.muted = false;
-    audioDeadChicken.muted = false;
-    audioWalkCharacter.muted = false;
-    audioJumpCharacter.muted = false;
-    audioHurtCharacter.muted = false;
-    audioGameLost.muted = false;
-    audioCoinCollected.muted = false;
-    audioBottleCollected.muted = false;
-    audioThrowBottle.muted = false;
-    audioGameWin.muted = true;
+    endbossAudio.muted = false;
+    elpollolocoAudio.muted = false;
+    chickenAudio.muted = false;
+    runningAudio.muted = false;
+    jumpAudio.muted = false;
+    hurtAudio.muted = false;
+    gameoverAudio.muted = false;
+    coinAudio.muted = false;
+    audioBottleCobottleAudiollected.muted = false;
+    throwAudio.muted = false;
+    wonAudio.muted = true;
 }
 
 /**

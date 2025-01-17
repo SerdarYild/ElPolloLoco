@@ -32,11 +32,11 @@ class ThrowableObject extends MovableObject {
      * 
      */
     throwBottle() {
-        this.addGravityToBottle();
-        this.animateBottle();
+        this.gravityAndMoveBottle();
+        this.animate();
     }
 
-    addGravityToBottle() {
+    gravityAndMoveBottle() {
         this.speedY = 20;
         this.addGravity();
         performInterval(() => {
@@ -49,7 +49,7 @@ class ThrowableObject extends MovableObject {
         }, 25);
     }
 
-    animateBottle() {
+    animate() {
         performInterval(() => {
             if (!world.level.endboss[0].isHurtEndboss()) {
                 this.playAnimationMo(this.IMAGE_BOTTLE_ROTATION);

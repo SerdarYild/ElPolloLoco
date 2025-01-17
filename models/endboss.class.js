@@ -102,9 +102,9 @@ class Endboss extends MovableObject {
      * This function shows the game over screen after the Endboss is defeated.
      */
     winGame() {
-        audioGameWin.play();
+        wonAudio.play();
         clearAllIntervals();
-        resetBackgroundMusic();
+        pauseGameSound();
         showWinScreen();
     }
 
@@ -112,10 +112,10 @@ class Endboss extends MovableObject {
      * This function plays the Endboss background music during the boss fight.
      */
     playBackgroundMusic() {
-        audioBackgroundMusicEndboss.volume = 0.2;
-        audioBackgroundMusicEndboss.play();
-        audioBackgroundMusicEndboss.loop = true;
-        audioBackgroundMusicInGame.pause();
+        endbossAudio.volume = 0.2;
+        endbossAudio.play();
+        endbossAudio.loop = true;
+        elpollolocoAudio.pause();
     }
 
     /**
