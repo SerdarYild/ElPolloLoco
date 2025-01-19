@@ -20,7 +20,7 @@ body {
     src: url('fonts/creative_juice.ttf') format('truetype');
 }
 
-/* Anwendung der Schriftart für die Überschriften */
+/* Using the font for headings */
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Docktrin', sans-serif;
 }

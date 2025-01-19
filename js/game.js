@@ -224,7 +224,7 @@ function unmuteAllGameAudio() {
     hurtAudio.muted = false;
     gameoverAudio.muted = false;
     coinAudio.muted = false;
-    audioBottleCobottleAudiollected.muted = false;
+    bottleAudio.muted = false;
     throwAudio.muted = false;
     wonAudio.muted = true;
 }

@@ -208,8 +208,8 @@ class Character extends MovableObject {
     }
 
     /**
- * This Function scroll the Map, with the Character Class, if he is moving.
- */
+    * This Function scroll the Map, with the Character Class, if he is moving.
+    */
     scrollTheMap() {
         if (this.x < this.world.level.levelEndX) {
             this.world.cameraX = -this.x + 30;
@@ -220,5 +220,33 @@ class Character extends MovableObject {
 
     characterCanThrowBottle() {
         return this.world.keyboard.d && this.canThrowBottle;
+    }
+    
+    /** 
+    * This Function handle the mobile controls for moving the Character Class left and right, 
+    * jumping and throwing a bottle.
+    */
+    mobileMoveLeft() {
+        this.otherDirection = true;
+        this.moveLeft();
+        runningAudio.play();
+    }
+
+    mobileMoveRight() {
+        this.otherDirection = false;
+        this.moveRight();
+        runningAudio.play();
+    }
+
+    mobileJump() {
+        this.jump();
+        jumpAudio.play();
+        jumpAudio.volume = 0.3;
+    }
+
+    mobileThrowBottle() {
+        if (this.canThrowBottle) {
+            this.throwBottle();
+        }
     }
 }

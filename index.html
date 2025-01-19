@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El Pollo Loco</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles/rotate.css">
     <link rel="shortcut icon" href="img/icon/icon.png">
     <script src="models/world.class.js"></script>
     <script src="models/keyboard.class.js"></script>
@@ -30,6 +31,7 @@
     <script src="models/cloud.class.js"></script>
     <script src="models/background-object.class.js"></script>
     <script src="models/endboss.class.js"></script>
+    <script src="js/rotation.js"></script>
 </head>
 
 <body>
@@ -70,6 +72,15 @@
             </div>
         </div>
 
+        <div id="mobileControls">
+            <button id="mobileMoveLeft">←</button>
+            <button id="mobileMoveRight">→</button>
+            <button id="mobileJump">Jump</button>
+            <button id="mobileThrowBottle">Throw Bottle</button>
+        </div>
+        <!--Rotations-Warnung-->
+        <div id="mobileOrientationWarning">Turn your Device to play.</div>
+
         <div class="icon-container">
             <!--Fullscreen Buttons-->
             <img src="img/icon/fullscreen.png" class="open-fullscreen d-none" onclick="openFullscreen()" id="openFullscreenIcon">
@@ -78,6 +89,7 @@
             <img src="img/icon/audio_on.png" class="btn-audio-on d-none" onclick="unmuteAllGameAudio()" id="audioOn">
             <img src="img/icon/audio_off.png" class="btn-audio-off d-none" onclick="muteAllGameAudio()" id="audioOff">
         </div>
+
     </div>
 
     <!--Controls Menu-->

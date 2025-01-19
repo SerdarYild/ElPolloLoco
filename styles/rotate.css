@@ -1,0 +1,32 @@
+#mobileControls {
+    display: none;
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+#mobileControls button {
+    font-size: 20px;
+    margin: 5px;
+    padding: 10px;
+}
+
+#mobileOrientationWarning {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+    #mobileControls {
+        display: block;
+    }
+}
