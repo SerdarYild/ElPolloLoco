@@ -28,7 +28,7 @@ class ThrowableObject extends MovableObject {
     }
 
     /**
-     * In this function the bottle is animated and moved
+     * function the bottle is animated and moved
      * 
      */
     throwBottle() {
