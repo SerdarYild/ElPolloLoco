@@ -38,7 +38,7 @@ class ThrowableObject extends MovableObject {
 
     gravityAndMoveBottle() {
         this.speedY = 20;
-        this.addGravity();
+        this.applyGravity();
         performInterval(() => {
             if (this.otherDirection) {
                 this.x -= 12;

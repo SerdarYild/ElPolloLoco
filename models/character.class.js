@@ -84,7 +84,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_LONG_IDLE);
         this.canThrowBottle = true;
         this.animateCharacter();
-        this.addGravity();
+        this.applyGravity();
     }
 
     /**
