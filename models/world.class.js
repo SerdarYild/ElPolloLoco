@@ -34,11 +34,6 @@ class World {
             this.maxBottlesToThrow--;
             this.character.reduceProgressbarBottleThroughThrow();
             this.statusbarBottle.setPercentage(this.character.progessBottleBar);
-            this.character.canThrowBottle = false;
-
-            setTimeout(() => {
-                this.character.canThrowBottle = true;
-            }, 1000);
         }
     }
 
@@ -174,8 +169,16 @@ class World {
         chickenAudio.volume = 0.3
         setTimeout(() => {
             this.deleteCurrentEnemy(enemy);
-        }, 1000 / 60);
+        }, 500);
     }
+
+    enemyHitByBottle(enemy, bottle) {
+        enemy.chickenKilled();
+        chickenAudio.play();
+        chickenAudio.volume = 0.3;
+        this.deleteCurrentEnemy(enemy);
+        this.removesBottleFromArray(bottle);
+    }    
 
     /**
      * This Function Check Collisions with the Endboss.
@@ -257,7 +260,7 @@ class World {
                 }
             });
         });
-    }
+    }  
 
     playEndbossSound() {
         chickenAudio.volume = 0.3;
@@ -305,4 +308,4 @@ class World {
         let i = this.throwableObject.indexOf(bottle);
         this.throwableObject.splice(i, 1);
     }
-}   
+}
