@@ -1,4 +1,9 @@
 class ThrowableObject extends MovableObject {
+    speedY = 0;
+    speedX = 0;
+    acceleration = 1.5;
+    intervalIds = [];
+
     IMAGE_BOTTLE_ROTATION = [
         'img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
         'img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
@@ -13,15 +18,15 @@ class ThrowableObject extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png',
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png',
     ];
-    intervalIds = [];
 
     constructor(x, y, otherDirection) {
-        super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
+        super().loadImage('img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
         this.loadImages(this.IMAGE_BOTTLE_ROTATION);
         this.loadImages(this.IMAGE_BOTTLE_SPLASH);
-        this.throwBottle();
-        this.width = 120;
-        this.height = 100;
+        this.throw();
+        this.animate();
+        this.width = 100;
+        this.height = 80;
         this.x = x;
         this.y = y;
         this.otherDirection = otherDirection;
@@ -31,22 +36,28 @@ class ThrowableObject extends MovableObject {
      * function the bottle is animated and moved
      * 
      */
-    throwBottle() {
-        this.gravityAndMoveBottle();
-        this.animate();
+    throw() {
+        this.speedY = -10;
+        this.speedX = 15;
+        this.applyGravityBottle();
+        this.move();
     }
 
-    gravityAndMoveBottle() {
-        this.speedY = 20;
-        this.applyGravity();
-        performInterval(() => {
-            if (this.otherDirection) {
-                this.x -= 12;
-            } else {
-                this.otherDirection;
-                this.x += 12;
-            }
+    move() {
+        setInterval(() => {
+            this.x += this.speedX;
         }, 25);
+    }
+
+    applyGravityBottle() {
+        setInterval(() => {
+            if (this.y < canvas.height) {
+                this.y += this.speedY;
+                this.speedY += this.acceleration;
+            } else {
+                this.deleteBottle();
+            }
+        }, 1000 / 25);
     }
 
     animate() {
@@ -57,5 +68,9 @@ class ThrowableObject extends MovableObject {
                 this.playAnimationMo(this.IMAGE_BOTTLE_SPLASH);
             }
         }, 1000 / 25);
+    }
+
+    deleteBottle() {
+        this.visible = false;
     }
 }
