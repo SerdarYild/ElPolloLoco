@@ -5,8 +5,8 @@ class Character extends MovableObject {
     height = 200;
     speed = 15;
     characterLastMovement = 0;
-	isWalking = false;
-	isSnoring = false;
+    isWalking = false;
+    isSnoring = false;
     offset = {
         top: 70,
         bottom: 10,
@@ -17,7 +17,7 @@ class Character extends MovableObject {
     world;
     keyboard;
     endOfLevelX = 4500;
-    
+
     IMAGES_IDLE = [
         "img/2_character_pepe/1_idle/idle/I-1.png",
         "img/2_character_pepe/1_idle/idle/I-2.png",
@@ -97,6 +97,47 @@ class Character extends MovableObject {
         performInterval(() => this.playCharacter(), 150);
     }
 
+    sleepAnimation() {
+        this.isSnoring = true;
+        this.playAnimationMo(this.IMAGES_LONG_IDLE);
+    }
+
+    idleAnimation() {
+        this.playAnimationMo(this.IMAGES_IDLE);
+    }
+
+    jumpAnimation() {
+        this.playAnimationMo(this.IMAGES_JUMP);
+        this.setTimeStamp();
+    }
+
+    /**
+     * This Function play the move left Animation from the Character
+     */
+    characterMoveAnimation() {
+        this.playAnimationMo(this.IMAGES_WALKING);
+        this.setTimeStamp();
+    }
+
+    /**
+     * This Function play the Hurt Animation from the Character Class, as soon as he take damage.
+     */
+    characterHurt() {
+        this.playAnimationMo(this.IMAGES_HURT);
+        hurtAudio.play();
+    }
+
+    /**
+     * This Function show the Game Over Screen.
+     */
+    gameIsLost() {
+        this.playAnimationMo(this.IMAGES_DEAD);
+        gameoverAudio.play();
+        clearAllIntervals();
+        pauseGameSound();
+        showGameOverScreen();
+    }
+
     /**
      * This Function is used to animate the move from the Character Class.
      */
@@ -163,6 +204,26 @@ class Character extends MovableObject {
     }
 
     /**
+     * Sets a timestamp for the last movement of the character.
+     */
+    setTimeStamp() {
+        this.characterLastMovement = new Date().getTime();
+    }
+
+    characterMoveTimepassed() {
+        let timepassed = new Date().getTime() - this.characterLastMovement;
+        timepassed = timepassed / 1000;
+        return timepassed;
+    }
+
+    stopSnoring() {
+        if (this.isSnoring) {
+            this.isSnoring = false;
+            this.setTimeStamp();
+        }
+    }
+
+    /**
      * This Function Play the Animation from the Character Class for example, if he is Jumping.
      */
     playCharacter() {
@@ -180,67 +241,6 @@ class Character extends MovableObject {
             this.idleAnimation();
         }
     }
-
-    /**
-     * This Function play the Hurt Animation from the Character Class, as soon as he take damage.
-     */
-    characterHurt() {
-        this.playAnimationMo(this.IMAGES_HURT);
-        hurtAudio.play();
-    }
-
-    /**
-     * This Function show the Game Over Screen.
-     */
-    gameIsLost() {
-        this.playAnimationMo(this.IMAGES_DEAD);
-        gameoverAudio.play();
-        clearAllIntervals();
-        pauseGameSound();
-        showGameOverScreen();
-    }
-
-    jumpAnimation() {
-        this.playAnimationMo(this.IMAGES_JUMP);
-        this.setTimeStamp();
-    }
-
-    /**
-     * This Function play the move left Animation from the Character
-     */
-    characterMoveAnimation() {
-        this.playAnimationMo(this.IMAGES_WALKING);
-        this.setTimeStamp();
-    }
-
-    sleepAnimation() {
-		this.isSnoring = true;
-		this.playAnimationMo(this.IMAGES_LONG_IDLE);
-    }
-
-    stopSnoring() {
-		if (this.isSnoring) {
-			this.isSnoring = false;
-			this.setTimeStamp();
-		}
-	}
-
-    idleAnimation() {
-		this.playAnimationMo(this.IMAGES_IDLE);
-	}
-
-    characterMoveTimepassed() {
-		let timepassed = new Date().getTime() - this.characterLastMovement;
-		timepassed = timepassed / 1000;
-		return timepassed;
-	}
-
-    /**
-	* Sets a timestamp for the last movement of the character.
-	*/
-	setTimeStamp() {
-		this.characterLastMovement = new Date().getTime();
-	}
 
     /**
      * This Function scroll the Map, with the Character Class, if he is moving.
