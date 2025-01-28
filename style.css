@@ -102,6 +102,14 @@ canvas {
     width: 100%;
     display: flex;
     justify-content: space-evenly;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.button-mainmenu-container.d-none {
+    opacity: 0;
+    visibility: hidden;
 }
 
 .img-startscreen {
@@ -123,7 +131,6 @@ canvas {
     transition: all 225ms ease-in-out;
     transform: scale(1.1);
 }
-
 
 .gameOverScreen {
     width: 820px;
@@ -265,7 +272,7 @@ canvas {
 }
 
 .d-none {
-    display: none;
+    display: none !important;
 }
 
 /***only for Fullscreen***/

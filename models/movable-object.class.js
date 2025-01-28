@@ -24,9 +24,14 @@ class MovableObject extends DrawableObject {
 
     applyGravity() {
         performInterval(() => {
-            if (this.isAboveGround() || this.isNotAboveGround()) {
+            if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
+
+                if (this.y > 230) {
+                    this.y = 230;
+                    this.speedY = 0;
+                }
             }
         }, 1000 / 25);
     }
@@ -40,7 +45,7 @@ class MovableObject extends DrawableObject {
     }
 
     isNotAboveGround() {
-        return this.speedY > 0 || this.y < 230;
+        return this.speedY > 0 || this.y < 0;
     }
 
     isColliding(mo) {
@@ -111,6 +116,11 @@ class MovableObject extends DrawableObject {
         return this.energy == 0;
     }
 
+    /**
+    * This Function put the energy to 0, for kill the Chicken enemies.
+    * 
+    * @returns {number} The energystatus from the Movable Object.
+    */
     chickenKilled() {
         return this.energy = 0;
     }

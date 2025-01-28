@@ -33,7 +33,6 @@ class Chicken extends MovableObject {
             }
         }, 1000 / 25);
 
-        // Animations-Intervall
         let animationInterval = setInterval(() => {
             if (!this.isDead()) {
                 this.playAnimationMo(this.IMAGES_CHICKEN_WALK);
