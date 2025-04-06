@@ -4,11 +4,18 @@ class Keyboard {
     space = false;
     d = false;
 
+    /**
+     * Initializes the keyboard and mobile button event listeners.
+     */
     constructor() {
         this.eventKeyboardBtns();
         this.eventMobileBtns();
     }
 
+    /**
+     * Adds event listeners for physical keyboard keydown and keyup events.
+     * Handles arrow keys, spacebar, and the "D" key.
+     */
     eventKeyboardBtns() {
         window.addEventListener('keydown', (event) => {
             if (event.keyCode == 37) {
@@ -47,48 +54,35 @@ class Keyboard {
         });
     }
 
+    /**
+     * Adds touch event listeners for mobile control buttons.
+     * Waits 150ms before binding events to ensure the DOM is ready.
+     */
     eventMobileBtns() {
         setTimeout(() => {
-            document.getElementById('mobileMoveLeft').addEventListener('touchstart', (event) => {
-                event.preventDefault();
-                this.left = true;
-            });
-    
-            document.getElementById('mobileMoveLeft').addEventListener('touchend', (event) => {
-                event.preventDefault();
-                this.left = false;
-            });
-    
-            document.getElementById('mobileMoveRight').addEventListener('touchstart', (event) => {
-                event.preventDefault();
-                this.right = true;
-            });
-    
-            document.getElementById('mobileMoveRight').addEventListener('touchend', (event) => {
-                event.preventDefault();
-                this.right = false;
-            });
-    
-            document.getElementById('mobileJump').addEventListener('touchstart', (event) => {
-                event.preventDefault();
-                this.space = true;
-            });
-    
-            document.getElementById('mobileJump').addEventListener('touchend', (event) => {
-                event.preventDefault();
-                this.space = false;
-            });
-    
-            document.getElementById('mobileThrow').addEventListener('touchstart', (event) => {
-                event.preventDefault();
-                this.d = true;
-            });
-    
-            document.getElementById('mobileThrow').addEventListener('touchend', (event) => {
-                event.preventDefault();
-                this.d = false;
-            });
-    
+            this.addTouchEvents('mobileMoveLeft', 'left');
+            this.addTouchEvents('mobileMoveRight', 'right');
+            this.addTouchEvents('mobileJump', 'space');
+            this.addTouchEvents('mobileThrow', 'd');
         }, 150);
-    }    
+    }
+
+    /**
+     * Adds touchstart and touchend event listeners to a mobile control button.
+     * When pressed or released, updates the corresponding control property.
+     */
+    addTouchEvents(elementId, property) {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+
+        el.addEventListener('touchstart', (event) => {
+            event.preventDefault();
+            this[property] = true;
+        });
+
+        el.addEventListener('touchend', (event) => {
+            event.preventDefault();
+            this[property] = false;
+        });
+    }  
 }
