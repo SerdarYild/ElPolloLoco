@@ -3,9 +3,8 @@ class Statusbar extends DrawableObject {
     percentage = 100;
 
     /**
-     * This Function is used to show the Current Image from the Status bar.
-     * 
-     * @param {number} percentage - The Current percentage to show the Current Image. 
+     * Updates the status of the status bar and sets the corresponding image based on the specified percentage.
+     * @param {number} percentage - The current percentage (0-100) that represents the status of the status bar.
      */
     setPercentage(percentage) {
         this.percentage = percentage;
@@ -14,10 +13,9 @@ class Statusbar extends DrawableObject {
     }
 
     /**
-     * This Function show the Current Image Index.
-     * 
-     * @param {number} percentage - The Current percentage to show the Current Image. 
-     * @returns {number} Return the Current Image Index.
+     * Calculates the index of the image to be displayed for the status bar based on the given percentage.
+     * @param {number} percentage - The current percentage (0-100).
+     * @returns {number} The index of the image to be displayed for the given percentage.
      */
     showImageIndex(percentage) {
         if (percentage == 100) {

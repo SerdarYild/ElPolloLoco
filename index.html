@@ -2,13 +2,15 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>El Pollo Loco</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="styles/rotate.css">
-    <link rel="shortcut icon" href="img/icon/icon.png">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="styles/rotate.css" />
+    <link rel="stylesheet" href="styles/mobilebtns.css" />
+    <link rel="stylesheet" href="styles/imprint.css" />
+    <link rel="icon" href="img/icon/icon.png" />
     <script src="models/world.class.js"></script>
     <script src="models/keyboard.class.js"></script>
     <script src="js/game.js"></script>
@@ -32,94 +34,138 @@
     <script src="models/background-object.class.js"></script>
     <script src="models/endboss.class.js"></script>
     <script src="js/rotation.js"></script>
+    <script src="js/imprint.js"></script>
 </head>
 
 <body>
+    <h1 class="headline" translate="no">El Pollo Loco</h1>
 
-    <h1>El Pollo Loco</h1>
-
-    <div class="canvas-container" id="gameContainer">
-
+    <div class="canvas-container" id="canvasContainer">
         <canvas width="820" height="480" id="canvas" class="d-none"></canvas>
 
-        <!--Main Menu Start-Screen-->
-        <div class="start-screen">
-            <img src="img/9_intro_outro_screens/start/startscreen_1.png" class="img-startscreen" id="startScreen">
+        <!-- Main Menu -->
+        <div class="main-menu" id="mainMenuContainer">
+            <img src="img/9_intro_outro_screens/start/startscreen_1.png" class="img-startscreen" id="startScreen" />
             <div class="button-mainmenu-container">
-                <img src="img/icon/start.png" class="btn-play" onclick="startGame()" id="btnPlay">
-                <img src="img/icon/navigation.png" class="btn-controls" onclick="openControlGuide()" id="controlGuide">
+                <img src="img/icon/start.png" class="btn-play" onclick="startGame()" id="btnPlay" />
+                <img src="img/icon/navigation.png" class="btn-controls" onclick="openControlGuide()"id="controlGuide" /> 
+            </div>
+            <!-- Impressum Button -->
+            <div class="imprint-container" id="imprintContainer">
+                <button class="btn-imprint" onclick="openImprint()" id="imprintBtn">
+                    Impressum
+                </button>
+            </div> 
+        </div>
+
+        <!-- Impressum Dialog -->
+        <div id="imprintDialog" class="imprint-modal">
+            <div class="imprint-modal-content" onclick="closeImprint()">
+                <h2>Impressum</h2>
+                <p><strong>Angaben gemäß § 5 TMG</strong></p>
+                <p>
+                    Serdar Yildirim<br />
+                    Kardinal-Galen-Hof 5<br />
+                    30457 Hannover<br />
+                </p>
+                <p><strong>Kontakt</strong></p>
+                <p>
+                    Telefon: +49 (0) 178410<br />
+                    E-Mail: seyil1978@gmail.com<br />
+                </p>
+                <p><strong>Bildquellen:</strong></p>
+                <p><a href="https://de.freepik.com/" target="_blank">Freepik</a></p>
+                <p>Quelle: <a href="https://www.e-recht24.de">e-recht24.de</a></p>
             </div>
         </div>
 
-        <!--Win-Screen-->
+        <!-- Rotation-Warning -->
+        <div id="mobileOrientationWarning" class="modal">
+            <div class="modal-content">
+                <p>Turn your Device to play.</p>
+                <img class="img-rotate" src="img/rotated.png" alt="Rotate Device" />
+            </div>
+        </div>
+
+        <!-- Win-Screen -->
         <div class="win-screen d-none" id="winScreen">
-            <div class="img-trophy">
-                <img src="img/9_intro_outro_screens/win/win_2.png">
-            </div>
+                <img src="img/9_intro_outro_screens/win/win_2.png" class="img-trophy" />
             <div class="endgame-actions">
-                <button onclick="restartGame()" id="restartGameWin" class="restart-game">Play again</button>
-                <button onclick="returnMainMenu()" id="btnMainMenuWinScreen" class="btn-mainmenu">Main Menu</button>
+                <button onclick="restartGame()" id="restartGameWin" class="restart-game">
+                    Restart Game
+                </button>
+                <button onclick="returnMainMenu()" id="btnBackToMainMenu" class="btn-mainmenu">
+                    Main Menu
+                </button>
             </div>
         </div>
 
-        <!--Gameover Screen-->
+        <!-- Gameover Screen -->
         <div class="gameover-screen d-none" id="gameoverContainer">
-            <img src="img/9_intro_outro_screens/game_over/gameover.png" class="gameOverScreen" id="gameOverScreen">
+                <img src="img/9_intro_outro_screens/game_over/gameover.png" class="img-gameover" id="gameOverScreen" />
             <div class="endgame-actions">
-                <button onclick="restartGame()" id="restartGameOver" class="restart-game">Restart Game</button>
-                <button onclick="returnMainMenu()" id="btnMainMenuGameOverScreen" class="btn-mainmenu">Main
-                    Menu</button>
+                <button onclick="restartGame()" id="restartGameOver" class="restart-game">
+                    Restart Game
+                </button>
+                <button onclick="returnMainMenu()" id="btnBackToMainMenu" class="btn-mainmenu">
+                    Main Menu
+                </button>
             </div>
         </div>
-
-        <div id="mobileControls">
-            <button id="mobileMoveLeft">←</button>
-            <button id="mobileMoveRight">→</button>
-            <button id="mobileJump">Jump</button>
-            <button id="mobileThrowBottle">Throw Bottle</button>
-        </div>
-        <!--Rotations-Warnung-->
-        <div id="mobileOrientationWarning">Turn your Device to play.</div>
 
         <div class="icon-container">
-            <!--Fullscreen Buttons-->
-            <img src="img/icon/fullscreen.png" class="open-fullscreen d-none" onclick="openFullscreen()" id="openFullscreenIcon">
-            <img src="img/icon/minimize.png" class="close-fullscreen d-none" onclick="closeFullscreen()" id="closeFullscreenIcon">
-        
-            <img src="img/icon/audio_on.png" class="btn-audio-on d-none" onclick="unmuteAllGameAudio()" id="audioOn">
-            <img src="img/icon/audio_off.png" class="btn-audio-off d-none" onclick="muteAllGameAudio()" id="audioOff">
+        <!-- Mobile Buttons -->
+        <div class="mobile-buttons-left d-none" id="mobileButtonsLeft">
+            <button class="mobile-left" id="mobileMoveLeft">←</button>
+            <button class="mobile-right" id="mobileMoveRight">→</button>
         </div>
-
+        <div class="mobile-buttons-right d-none" id="mobileButtonsRight">
+            <button class="mobile-jump" id="mobileJump">Jump</button>
+            <button class="mobile-throw" id="mobileThrow">Throw</button>
+        </div>
+            <!-- Fullscreen Buttons -->
+            <div class="fullandminimize-audio-btns">
+                <img src="img/icon/fullscreen.png" class="open-fullscreen d-none" onclick="openFullscreen()"
+                    id="openFullscreenIcon" />
+                <img src="img/icon/minimize.png" class="close-fullscreen d-none" onclick="closeFullscreen()"
+                    id="closeFullscreenIcon" />
+                <!-- Audio Buttons -->
+                <img src="img/icon/audio_on.png" class="btn-audio-on d-none" onclick="unmuteAllGameAudio()"
+                    id="audioOn" />
+                <img src="img/icon/audio_off.png" class="btn-audio-off d-none" onclick="muteAllGameAudio()"
+                    id="audioOff" />
+            </div>
+        </div>
     </div>
 
-    <!--Controls Menu-->
+    <!-- Controls Menu -->
     <div class="controls-container d-none" id="controlsContainer">
-        <img src="./img/icon/close.png" class="btn-close" onclick="closeControls()" id="closeBackGameControls">
+        <img src="./img/icon/close.png" class="btn-close" onclick="closeControls()" id="closeBackGameControls" />
 
         <div class="game-controls">
             <h2>Game Controls</h2>
 
             <div class="control-item">
                 <p>Move right</p>
-                <img src="img/icon/right.png">
+                <img src="img/icon/right.png" />
             </div>
 
             <div class="control-item">
                 <p>Move left</p>
-                <img src="img/icon/left.png">
+                <img src="img/icon/left.png" />
             </div>
 
             <div class="control-item">
                 <p>Jump</p>
-                <img src="img/icon/space.png">
+                <img src="img/icon/space.png" />
             </div>
 
             <div class="control-item">
                 <p>Throw Bottle</p>
-                <img src="img/icon/letter_d.png">
+                <img src="img/icon/letter_d.png" />
             </div>
         </div>
     </div>
-
 </body>
+
 </html>

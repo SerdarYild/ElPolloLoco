@@ -15,16 +15,15 @@ let endbossAudio = new Audio('audio/endboss.mp3');
 let intervalIds = [];
 
 /**
- * This function start the Game.
- * 
+ * Starts the game by initializing the level and setting up the game display and sound buttons.
  */
 function startGame() {
     initLevel();
     showGameDisplay();
-    showSoundBtns();
+    showAudioBtns();
+    showMobileBtns();
     showFullscreenBtn();
-    document.querySelector('.start-screen').classList.add('d-none');
-    document.querySelector('.button-mainmenu-container').classList.add('d-none');
+    document.getElementById('mainMenuContainer').classList.add('d-none');
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
     playBackgroundMusic();
@@ -32,7 +31,6 @@ function startGame() {
 
 /**
  * This function hides the start screen.
- * 
  */
 function showGameDisplay() {
     document.getElementById('canvas').classList.remove('d-none');
@@ -42,17 +40,40 @@ function showGameDisplay() {
 }
 
 /**
- * This Function show the Buttons for Sound.
- * 
+ * Displays the audio control buttons.
  */
-function showSoundBtns() {
-    document.getElementById('audioOn').classList.remove('d-none');
+function showAudioBtns() {
     document.getElementById('audioOff').classList.remove('d-none');
+    document.getElementById('audioOn').classList.add('d-none');
 }
 
 /**
- * This Function show the Button for Fullscreen.
+ * Checks if the current device supports touch input.
  * 
+ * @returns {boolean} - Returns true if the device has touch capabilities, otherwise false.
+ */
+function isTouchDevice() {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+}
+
+/**
+ * Displays or hides mobile control buttons based on whether the device supports touch input.
+ */
+function showMobileBtns() {
+    let mobileButtonsLeft = document.getElementById('mobileButtonsLeft');
+    let mobileButtonsRight = document.getElementById('mobileButtonsRight');
+
+    if (isTouchDevice()) {
+        mobileButtonsLeft.classList.remove('d-none');
+        mobileButtonsRight.classList.remove('d-none');
+    } else {
+        mobileButtonsLeft.classList.add('d-none');
+        mobileButtonsRight.classList.add('d-none');
+    }
+}
+
+/**
+ * Shows the button for fullscreen mode.
  */
 function showFullscreenBtn() {
     let fullscreenButton = document.getElementById('openFullscreenIcon');
@@ -63,8 +84,7 @@ function showFullscreenBtn() {
 }
 
 /**
- * This Function Play Backgroundmusic.
- * 
+ * Plays the background music with volume adjustment and looping.
  */
 function playBackgroundMusic() {
     elpollolocoAudio.volume = 0.2;
@@ -73,46 +93,42 @@ function playBackgroundMusic() {
 }
 
 /**
- * This Function restart the Game.
- * 
+ * This function restarts the game.
  */
 function restartGame() {
-    closeFullscreen();
-
     document.getElementById('gameoverContainer').classList.add('d-none');
     document.getElementById('winScreen').classList.add('d-none');
-    document.getElementById('startScreen').classList.add('d-none');
+    document.getElementById('mainMenuContainer').classList.add('d-none');
     document.getElementById('audioOff').classList.remove('d-none');
     document.getElementById('audioOn').classList.remove('d-none');
     document.getElementById('openFullscreenIcon').classList.remove('d-none');
-
+    closeFullscreen();
     clearAllIntervals();
     pauseGameSound();
     startGame();
-
     document.getElementById('canvas').classList.remove('d-none');
 }
 
 /**
- * This Function go back to Start screen.
- * 
+ * This function goes back to the start screen.
  */
 function returnMainMenu() {
     clearAllIntervals();
     document.getElementById('canvas').classList.add('d-none');
-    document.getElementById('startScreen').classList.remove('d-none');
     document.getElementById('winScreen').classList.add('d-none');
     document.getElementById('gameoverContainer').classList.add('d-none');
-    document.querySelector('.start-screen').classList.remove('d-none');
-    document.querySelector('.button-mainmenu-container').classList.remove('d-none');
-    document.getElementById('openFullscreenIcon').classList.add('d-none');
+    document.getElementById('mainMenuContainer').classList.remove('d-none');
+    document.getElementById('openFullscreenIcon').style.display = 'none';
+    document.getElementById('closeFullscreenIcon').classList.add('d-none');
+    document.getElementById('startScreen').classList.remove('d-none');
+    document.getElementById('btnPlay').classList.remove('d-none')
+    document.getElementById('controlGuide').classList.remove('d-none')
     closeFullscreen();
     pauseGameSound();
 }
 
 /**
- * This Function show the Gameover Screen.
- * 
+ * Shows the game over screen after a delay and pauses the game sound.
  */
 function showGameOverScreen() {
     setTimeout(() => {
@@ -127,8 +143,7 @@ function showGameOverScreen() {
 }
 
 /**
- * This Function show the Win Screen.
- * 
+ * Shows the win screen after a delay and pauses the game sound.
  */
 function showWinScreen() {
     setTimeout(() => {
@@ -143,21 +158,26 @@ function showWinScreen() {
 }
 
 /**
- * This Function stop Sound.
- * 
+ * Pauses the game sound.
  */
 function pauseGameSound() {
     elpollolocoAudio.pause();
     endbossAudio.pause();
 }
 
+/**
+ * Adds a new interval to the list of intervals and executes the provided function at the specified time interval.
+ * 
+ * @param {Function} fn - The function to be executed at each interval.
+ * @param {number} time - The time interval in milliseconds.
+ */
 function performInterval(fn, time) {
-    intervalIds.push(setInterval(fn, time));
+    let id = setInterval(fn, time);
+    intervalIds.push(id);
 }
 
 /**
- * This Function clear the Intervals.
- * 
+ * Clears all active intervals.
  */
 function clearAllIntervals() {
     intervalIds.forEach(clearInterval);
@@ -165,23 +185,25 @@ function clearAllIntervals() {
 }
 
 /**
- * This function is for the Fullscreen Mode.
- * 
+ * Enables fullscreen mode for the game container.
  */
 function openFullscreen() {
-    let gameContainer = document.getElementById('gameContainer');
-    if (gameContainer.requestFullscreen) {
-        gameContainer.requestFullscreen();
-    } else if (gameContainer.webkitRequestFullscreen) {
-        gameContainer.webkitRequestFullscreen();
-    } else if (gameContainer.msRequestFullscreen) {
-        gameContainer.msRequestFullscreen();
+    let canvasContainer = document.getElementById('canvasContainer');
+    if (canvasContainer.requestFullscreen) {
+        canvasContainer.requestFullscreen();
+    } else if (canvasContainer.webkitRequestFullscreen) {
+        canvasContainer.webkitRequestFullscreen();
+    } else if (canvasContainer.msRequestFullscreen) {
+        canvasContainer.msRequestFullscreen();
     }
 
     document.getElementById('openFullscreenIcon').classList.add('d-none');
     document.getElementById('closeFullscreenIcon').classList.remove('d-none');
 }
 
+/**
+ * Exits fullscreen mode and updates the fullscreen icons.
+ */
 function closeFullscreen() {
     if (document.fullscreenElement) {
         document.exitFullscreen();
@@ -196,8 +218,7 @@ function closeFullscreen() {
 }
 
 /**
- * This Function mute Sound.
- * 
+ * Mutes all game audio.
  */
 function muteAllGameAudio() {
     endbossAudio.muted = true;
@@ -211,11 +232,14 @@ function muteAllGameAudio() {
     bottleAudio.muted = true;
     throwAudio.muted = true;
     wonAudio.muted = true;
+
+    document.getElementById('audioOff').classList.add('d-none');
+    document.getElementById('audioOn').classList.remove('d-none');
+    saveAudioSetting(false);
 }
 
 /**
- * This Function turn Sound on.
- * 
+ * Unmutes all game audio.
  */
 function unmuteAllGameAudio() {
     endbossAudio.muted = false;
@@ -229,32 +253,56 @@ function unmuteAllGameAudio() {
     bottleAudio.muted = false;
     throwAudio.muted = false;
     wonAudio.muted = true;
+
+    document.getElementById('audioOn').classList.add('d-none');
+    document.getElementById('audioOff').classList.remove('d-none');
+    saveAudioSetting(true);
 }
 
 /**
- * This Function ist for the Steering Menu.
- * 
+ * Saves the current audio setting (enabled or muted) to localStorage.
+ */
+function saveAudioSetting(isAudioOn) {
+    localStorage.setItem('audioEnabled', isAudioOn);
+}
+
+/**
+ * Retrieves the stored audio setting from localStorage.
+ */
+function getAudioSetting() {
+    return localStorage.getItem('audioEnabled') === 'true';
+}
+
+/**
+ * Opens the control guide and hides the start screen.
  */
 function openControlGuide() {
     let startScreen = document.getElementById('startScreen');
     let controlsContainer = document.getElementById('controlsContainer');
     let controlGuide = document.getElementById('controlGuide');
     let btnPlay = document.getElementById('btnPlay');
+    let imprintContainer = document.getElementById('imprintContainer');
     
     if (startScreen) startScreen.classList.add('d-none');
     if (controlsContainer) controlsContainer.classList.remove('d-none');
     if (controlGuide) controlGuide.style.display = 'none'; 
     if (btnPlay) btnPlay.style.display = 'none';
+    if (imprintContainer) imprintContainer.style.visibility = 'hidden';
 }
 
+/**
+ * Closes the control guide and shows the start screen.
+ */
 function closeControls() {
     let startScreen = document.getElementById('startScreen');
     let controlsContainer = document.getElementById('controlsContainer');
     let controlGuide = document.getElementById('controlGuide');
     let btnPlay = document.getElementById('btnPlay');
+    let imprintContainer = document.getElementById('imprintContainer');
     
     if (startScreen) startScreen.classList.remove('d-none');
     if (controlsContainer) controlsContainer.classList.add('d-none');
     if (controlGuide) controlGuide.style.display = 'block';
     if (btnPlay) btnPlay.style.display = 'block';
+    if (imprintContainer) imprintContainer.style.visibility = 'visible';
 }

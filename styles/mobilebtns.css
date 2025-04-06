@@ -1,0 +1,55 @@
+.mobile-buttons-left,
+.mobile-buttons-right {
+    position: absolute;
+    bottom: 5%;
+    display: none;
+    gap: 10px;
+}
+
+.mobile-buttons-left {
+    left: 5%;
+}
+
+.mobile-buttons-right {
+    right: 5%;
+}
+
+.mobile-buttons-left button,
+.mobile-buttons-right button {
+    width: 52px;
+    height: 32px;
+    font-size: 20px;
+    border: none;
+    border-radius: 11px;
+    background-color: rgb(66 66 66 / 66%);
+    color: white;
+}
+
+@media (pointer: coarse) {
+    .mobile-buttons-left,
+    .mobile-buttons-right {
+        display: flex !important;
+    }
+}
+
+@media (pointer: fine) {
+    .mobile-buttons-left,
+    .mobile-buttons-right {
+        display: none !important;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .mobile-buttons-left button, 
+    .mobile-buttons-right button {
+        width: 40px;
+        height: 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        background-color: rgb(66 66 66 / 66%);
+        color: white;
+    }
+}

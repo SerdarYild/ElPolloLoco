@@ -9,6 +9,10 @@ class StatusbarHealth extends Statusbar {
         'img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png',
     ];
 
+    /**
+     * Creates an instance of the status bar and initializes it with default values.
+     * Loads the status bar images and sets the initial percentage to 100%.
+     */
     constructor() {
         super().loadImages(this.IMAGES_STATUSBAR);
         this.setPercentage(100);

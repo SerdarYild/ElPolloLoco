@@ -50,6 +50,12 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G26.png',
     ];
 
+    /**
+     * Sets up touch event listeners for mobile control buttons.
+     * Initializes the behavior for moving left, right, jumping, and throwing based on touch events.
+     * 
+     * The function waits 500ms before attaching event listeners to the mobile control buttons.
+     */
     constructor() {
         super().loadImage('img/4_enemie_boss_chicken/1_walk/G1.png');
         this.loadImages(this.IMAGES_BOSS_WALK);
@@ -68,6 +74,7 @@ class Endboss extends MovableObject {
         performInterval(() => {
             this.playEndboss(i);
             i++;
+            this.updateEndbossLogic();
             if (this.hasReached()) {
                 i = 0;
                 this.hadFirstContact = true;
@@ -86,7 +93,11 @@ class Endboss extends MovableObject {
             this.playAnimationMo(this.IMAGES_BOSS_ALERT);
         } else if (!this.isDead() && !this.isHurt() && this.fightBegins()) {
             this.playAnimationMo(this.IMAGES_BOSS_WALK);
-            this.moveLeft();
+            if (this.shouldFollow()) {
+                this.updateDirection();
+            } else {
+                this.moveLeft();
+            }
         } else if (this.isHurt()) {
             this.playAnimationMo(this.imagesHurtEndboss);
         } else if (this.isDead()) {
@@ -99,17 +110,7 @@ class Endboss extends MovableObject {
     }
 
     /**
-     * This function shows the game over screen after the Endboss is defeated.
-     */
-    winGame() {
-        wonAudio.play();
-        clearAllIntervals();
-        pauseGameSound();
-        showWinScreen();
-    }
-
-    /**
-     * This function plays the Endboss background music during the boss fight.
+     * Plays the Endboss fight music.
      */
     playBackgroundMusic() {
         endbossAudio.volume = 0.2;
@@ -119,12 +120,89 @@ class Endboss extends MovableObject {
     }
 
     /**
+     * Handles the game win sequence.
+     */
+    winGame() {
+        wonAudio.play();
+        clearAllIntervals();
+        pauseGameSound();
+        showWinScreen();
+    }
+
+    /**
+     * Updates the logic for the Endboss's actions.
+     * If the Endboss should follow the character, it updates the direction.
+     * If the Endboss is not dead, not hurt, and the fight begins, it plays the walk animation and updates the direction.
+     */
+    updateEndbossLogic() {
+        if (this.shouldFollow()) {
+            this.updateDirection();
+        } else if (!this.isDead() && !this.isHurt() && this.fightBegins()) {
+            this.playAnimationMo(this.IMAGES_BOSS_WALK);
+            this.updateDirection();
+        }
+    }
+
+    /**
+     * Makes the Endboss follow the character with a delay.
+     * The Endboss waits for a specified time before updating its direction.
+     */
+    followCharacter() {
+        if (!this.following) {
+            this.following = true;
+            setTimeout(() => {
+                this.updateDirection();
+                this.following = false;
+            }, 2000);
+        }
+    }
+
+    /**
+     * Updates the direction of the Endboss.
+     * Moves left if the character is to the left, and right if the character is to the right.
+     * Then handles the turning delay.
+     */
+    updateDirection() {
+        if (world.character.x < this.x) {
+            this.moveLeft();
+        } else {
+            this.moveRight();
+        }
+        this.delayedTurn();
+    }
+
+    /**
+     * Delays the Endboss's turning.
+     * Sets the direction based on the character's position after a delay.
+     */
+    delayedTurn() {
+        if (!this.turning) {
+            this.turning = true;
+            setTimeout(() => {
+                if (world.character.x < this.x) {
+                    this.otherDirection = false;
+                } else {
+                    this.otherDirection = true;
+                }
+                this.turning = false;
+            }, 2000);
+        }
+    }
+
+    /**
      * This function doubles the movement speed of the Endboss.
      */
     enterRageMode() {
         if (this.shouldRage()) {
             this.doubleSpeed();
         }
+    }
+
+    /**
+     * Calculates the distance between the Endboss and the character.
+     */
+    getDistanceToCharacter() {
+        return Math.abs(this.x - world.character.x);
     }
 
     /**
@@ -145,14 +223,31 @@ class Endboss extends MovableObject {
         return world.character.x > world.level.endboss[0].x - 1000;
     }
 
+    /**
+     * Checks if the Endboss should follow the character.
+     */
+    shouldFollow() {
+        let distance = this.getDistanceToCharacter();
+        return distance < 400 && distance > 50 && this.hadFirstContact;
+    }
+
+    /**
+     * Checks if the Endboss should rage.
+     */
     shouldRage() {
         return world.level.endboss[0].energy < 50;
     }
 
+    /**
+     * Doubles the Endboss's speed.
+     */
     doubleSpeed() {
         world.level.endboss[0].speed = 30;
     }
 
+    /**
+     * Checks if the Endboss is hurt.
+     */
     isHurt() {
         return this.isHurtEndboss();
     }

@@ -13,7 +13,15 @@ class World {
     statusbarCoin = new StatusbarCoin();
     statusbarBottle = new StatusbarBottle();
     statusbarEndbossHealth = new StatusbarEndbossHealth();
+    lastThrowTime = 0;
+    throwDelay = 500;
 
+    /**
+     * Initializes the game world and sets up necessary properties.
+     * 
+     * @param {HTMLCanvasElement} canvas - The canvas element where the game is drawn.
+     * @param {object} keyboard - The keyboard input handler for player controls.
+     */
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -24,22 +32,30 @@ class World {
         this.checkCollisionsBottle();
         this.startGameLoop();
     }
-
-    /** * This Function check if the Throwing Bottle is activate. */
+    
+    /**
+     * Checks if the throwing bottle action is activated.
+     */
     checkThrowObjects() {
+        let currentTime = Date.now();
+
         if (this.keyboard.d && this.character.canThrowBottle && this.maxBottlesToThrow > 0) {
-            let bottle = new ThrowableObject(this.character.x, this.character.y, this.character.otherDirection);
-            this.throwableObject.push(bottle);
-            throwAudio.play();
-            this.maxBottlesToThrow--;
-            this.character.reduceProgressbarBottleThroughThrow();
-            this.statusbarBottle.setPercentage(this.character.progessBottleBar);
+            if (currentTime - this.lastThrowTime >= this.throwDelay) {
+                let bottle = new ThrowableObject(this.character.x, this.character.y, this.character.otherDirection);
+                this.throwableObject.push(bottle);
+                throwAudio.play();
+                this.maxBottlesToThrow--;
+                this.character.reduceProgressbarBottleThroughThrow();
+                this.statusbarBottle.setPercentage(this.character.progressBottleBar);
+
+                this.lastThrowTime = currentTime;
+            }
         }
     }
+    
 
     /**
-     * This Function draw all in the Canvas.
-     * 
+     * Draws all game elements on the canvas.
      */
     draw() {
         this.clearCanvas();
@@ -66,11 +82,19 @@ class World {
         this.ctx.translate(-this.cameraX, 0);
     }
 
+    /**
+     * Continuously updates and redraws the game screen.
+     * Calls itself recursively using requestAnimationFrame to create a smooth animation loop.
+     */
     gameLoop() {
         this.draw();
         requestAnimationFrame(() => this.gameLoop());
     }
 
+    /**
+     * Starts the game loop.
+     * Calls the gameLoop function to begin rendering the game continuously.
+     */
     startGameLoop() {
         this.gameLoop();
     }
@@ -119,7 +143,6 @@ class World {
 
     /**
      * functions check collisions for various game objects
-     *  
      */
     checkCollisions() {
         performInterval(() => {
@@ -137,12 +160,12 @@ class World {
         performInterval(() => {
             this.checkThrowObjects();
             this.checkCollisionWithBottleEndboss();
+            this.checkCollisionWithBottleChicken();
         }, 230);
     }
 
     /**
-     * This Function are for the Collisions with the Chicken Enemies.
-     * 
+     * This Function are for the Collisions with the Chicken Enemies. 
      */
     checkCollisionsChicken() {
         this.level.enemies.forEach(enemy => {
@@ -150,8 +173,11 @@ class World {
                 if (this.character.isAboveGround()) {
                     this.jumpAndKillChicken(enemy);
                 } else {
-                    this.character.hitCharacter()
+                    this.character.hitCharacter(); // Reduces energy by 10
                     this.statusbarHealth.setPercentage(this.character.energy);
+                    if (this.character.isDead()) {
+                        this.gameOver(); // Ends the game if the character is dead
+                    }
                 }
             }
         });
@@ -172,13 +198,22 @@ class World {
         }, 500);
     }
 
+    /**
+     * Handles the event when an enemy is hit by a thrown bottle.
+     * If the enemy is a Chicken or SmallChicken, it gets defeated.
+     * 
+     * @param {object} enemy - The enemy object that was hit.
+     * @param {object} bottle - The bottle object that hit the enemy.
+     */
     enemyHitByBottle(enemy, bottle) {
-        enemy.chickenKilled();
-        chickenAudio.play();
-        chickenAudio.volume = 0.3;
-        this.deleteCurrentEnemy(enemy);
-        this.removesBottleFromArray(bottle);
-    }    
+        if (enemy instanceof Chicken || enemy instanceof SmallChicken) {
+            enemy.chickenKilled();
+            chickenAudio.play();
+            chickenAudio.volume = 0.3;
+            this.deleteCurrentEnemy(enemy);
+            this.removesBottleFromArray(bottle);
+        }
+    }
 
     /**
      * This Function Check Collisions with the Endboss.
@@ -186,11 +221,24 @@ class World {
      */
     checkCollisionsEndboss() {
         this.level.endboss.forEach(endboss => {
-            if (this.character.isColliding(endboss)) {
-                this.character.hitCharacter();
+            if (this.character.isColliding(endboss) && !this.character.isHurtCharacter()) {
+                this.character.hitEndboss();
                 this.statusbarHealth.setPercentage(this.character.energy);
+                if (this.character.isDead()) {
+                    this.gameOver();
+                }
             }
         });
+    }
+
+    /**
+     * This Function handles the Game Over logic.
+     */
+    gameOver() {
+        document.getElementById('gameoverContainer').classList.remove('d-none');
+        document.getElementById('canvas').classList.add('d-none');
+        runningAudio.pause();
+        runningAudio.currentTime = 0;    
     }
 
     /**
@@ -199,11 +247,10 @@ class World {
      */
     checkCollectedCoins() {
         this.level.coins.forEach((coin) => {
-            if (this.character.isCollected(coin)) {
+            if (this.character.isColliding(coin)) {
                 this.coinCollected(coin);
                 this.character.raiseProgressbarCoin();
                 coinAudio.play();
-                this.statusbarCoin.setPercentage(this.character.progessCoinBar);
             }
         });
     }
@@ -224,11 +271,10 @@ class World {
      */
     checkCollectedBottles() {
         this.level.bottles.forEach((bottle) => {
-            if (this.character.isCollected(bottle)) {
+            if (this.character.progressBottleBar < 100 && this.character.isCollected(bottle)) {
                 this.bottleCollected(bottle);
                 this.character.raiseProgressbarBottle();
                 bottleAudio.play();
-                this.statusbarBottle.setPercentage(this.character.progessBottleBar);
             }
         });
     }
@@ -260,18 +306,51 @@ class World {
                 }
             });
         });
-    }  
+    }
 
+    /**
+     * This function removes the chicken from the array of enemies.
+     * @param {Object} chicken - The chicken that was hit and should be removed.
+     */
+    removesChickenFromArray(chicken) {
+        let i = this.level.enemies.indexOf(chicken);
+        if (i !== -1) {
+            this.level.enemies.splice(i, 1);
+        }
+    }
+
+    /**
+     * Checks for collisions between throwable bottles and enemy chickens.
+     * If a collision is detected, the enemy chicken is removed and a sound is played.
+     */
+    checkCollisionWithBottleChicken() {
+        this.throwableObject.forEach((bottle) => {
+            this.level.enemies.forEach((enemy) => {
+                if (bottle.isColliding(enemy)) {
+                    enemy.chickenKilledByBottle();
+                    this.removesChickenFromArray(enemy);
+                    chickenAudio.play();
+                    setTimeout(() => {
+                        this.removesBottleFromArray(bottle);
+                    }, 180);
+                }
+            });
+        });
+    }
+
+    /**
+     * Plays the sound associated with the endboss.
+     */
     playEndbossSound() {
         chickenAudio.volume = 0.3;
         chickenAudio.play();
     }
 
     /**
-        * This Function mirror the Character.   
-        * 
-        * @param {string} mo - This is the MovableObject for example Character Class or Endboss Class.
-        */
+     * This Function mirror the Character.   
+     * 
+     * @param {string} mo - This is the MovableObject for example Character Class or Endboss Class.
+     */
     flipImage(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
@@ -306,6 +385,8 @@ class World {
     */
     removesBottleFromArray(bottle) {
         let i = this.throwableObject.indexOf(bottle);
-        this.throwableObject.splice(i, 1);
+        if (i !== -1) {
+            this.throwableObject.splice(i, 1);
+        }
     }
 }

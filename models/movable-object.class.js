@@ -5,8 +5,9 @@ class MovableObject extends DrawableObject {
     acceleration = 3;
     energy = 100;
     lastHit = 0;
-    progessCoinBar = 0;
-    progessBottleBar = 0;
+    progressCoinBar = 0;
+    progressBottleBar = 0;
+    collectedBottles = 0;
     offset = {
         top: 0,
         bottom: 0,
@@ -14,14 +15,23 @@ class MovableObject extends DrawableObject {
         right: 0,
     }
 
+    /**
+     * Moves the object to the right.
+     */
     moveRight() {
         this.x += this.speed;
     }
 
+    /**
+     * Moves the object to the left.
+     */
     moveLeft() {
         this.x -= this.speed;
     }
 
+    /**
+     * Applies gravity to the object, causing it to fall if above the ground.
+     */
     applyGravity() {
         performInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
@@ -36,6 +46,9 @@ class MovableObject extends DrawableObject {
         }, 1000 / 25);
     }
 
+    /**
+     * Checks if the object is above the ground.
+     */
     isAboveGround() {
         if (this instanceof ThrowableObject) {
             return true;
@@ -44,10 +57,16 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    /**
+     * Checks if the object is not above the ground.
+     */
     isNotAboveGround() {
         return this.speedY > 0 || this.y < 0;
     }
 
+    /**
+     * Checks if the object is colliding with another movable object.
+     */
     isColliding(mo) {
         return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
             this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
@@ -55,13 +74,9 @@ class MovableObject extends DrawableObject {
             this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
     }
 
-    isCollected(mo) {
-        return this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
-            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
-            this.x + this.offset.left < mo.x + mo.width - mo.offset.right &&
-            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom;
-    }
-
+    /**
+     * Reduces the character's energy when hit and updates the last hit time.
+     */
     hitCharacter() {
         this.energy -= 10;
         if (this.energy < 0) {
@@ -71,6 +86,9 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    /**
+     * Reduces the endboss's energy when hit and updates the last hit time.
+     */
     hitEndboss() {
         this.energy -= 20;
         if (this.energy < 0) {
@@ -80,8 +98,30 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    /**
+     * Increases the progress bar for coins.
+     */
     raiseProgressbarCoin() {
-        this.progessCoinBar += 5;
+        if (this.progressCoinBar < 100) {
+            let totalCoins = 5;
+            let progressStep = 100 / totalCoins;
+            
+            this.progressCoinBar += progressStep;
+            if (this.progressCoinBar > 100) {
+                this.progressCoinBar = 100;
+            }
+            this.updateCoinBar();
+        }
+    }      
+
+    /**
+     * Updates the coin status bar.
+     * Sets the percentage of the coin status bar based on the progress.
+     */
+    updateCoinBar() {
+        if (this.world && this.world.statusbarCoin) {
+            this.world.statusbarCoin.setPercentage(this.progressCoinBar);
+        }
     }
 
     /**
@@ -89,7 +129,12 @@ class MovableObject extends DrawableObject {
     * 
     */
     raiseProgressbarBottle() {
-        this.progessBottleBar += 10;
+        if (this.progressBottleBar < 100 && this.collectedBottles < 10) {
+            this.collectedBottles++;
+            this.progressBottleBar = (this.collectedBottles / 10) * 100;
+            this.maxBottlesToThrow++;
+            this.updateBottleBar();
+        }
     }
 
     /**
@@ -97,21 +142,43 @@ class MovableObject extends DrawableObject {
      * 
      */
     reduceProgressbarBottleThroughThrow() {
-        this.progessBottleBar -= 10;
+        if (this.progressBottleBar > 0 && this.collectedBottles > 0) {
+            this.collectedBottles--;
+            this.progressBottleBar = (this.collectedBottles / 10) * 100;
+            this.updateBottleBar();
+        }
     }
 
+    /**
+     * Updates the bottle status bar based on collected bottles.
+     */
+    updateBottleBar() {
+        if (this.world && this.world.statusbarBottle) {
+            this.world.statusbarBottle.setPercentage(this.progressBottleBar);
+        }
+    }
+
+    /**
+     * Checks if the character is hurt based on the last hit time.
+     */
     isHurtCharacter() {
         let timepassed = new Date().getTime() - this.lastHit;  // Difference in milliseconds.
         timepassed = timepassed / 1000;   // Difference in seconds.
         return timepassed < 1;
     }
 
+    /**
+     * Checks if the endboss is hurt based on the last hit time.
+     */
     isHurtEndboss() {
         let timepassed = new Date().getTime() - this.lastHit;  // Difference in milliseconds.
         timepassed = timepassed / 1000;  // Difference in seconds.
         return timepassed < 0.5;
     }
 
+    /**
+     * Checks if the object is dead based on its energy level.
+     */
     isDead() {
         return this.energy == 0;
     }
@@ -125,6 +192,18 @@ class MovableObject extends DrawableObject {
         return this.energy = 0;
     }
 
+    /**
+     * Sets the energy of the chicken to 0 when hit by a bottle.
+     */
+    chickenKilledByBottle() {
+        this.energy = 0;
+    }
+
+    /**
+     * Plays the animation for the movable object.
+     * 
+     * @param {array} images - The images for the animation.
+     */
     playAnimationMo(images) {
         let i = this.currentImage % images.length;
         let path = images[i];

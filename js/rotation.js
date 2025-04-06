@@ -1,31 +1,25 @@
-document.addEventListener('DOMContentLoaded', (event) => {
-    function checkOrientation() {
-        if (window.innerHeight > window.innerWidth) {
-            document.getElementById('mobileOrientationWarning').style.display = 'block';
+/**
+ * Checks the screen orientation and displays a warning if the device is in portrait mode.
+ */
+function checkOrientation() {
+    let warningElement = document.getElementById('mobileOrientationWarning');
+    
+    if (warningElement) {
+        let isPortrait = window.matchMedia("(orientation: portrait)").matches;
+        
+        if (isPortrait) {
+            warningElement.style.display = 'flex';
         } else {
-            document.getElementById('mobileOrientationWarning').style.display = 'none';
+            warningElement.style.display = 'none';
         }
     }
+}
 
-    window.addEventListener('resize', checkOrientation);
-    window.addEventListener('load', checkOrientation);
+/**
+ * Event listener for screen changes.
+ */
+window.addEventListener('resize', checkOrientation);
+window.addEventListener('orientationchange', checkOrientation);
 
-    document.getElementById('mobileMoveLeft').addEventListener('click', function() {
-        character.mobileMoveLeft();
-    });
-
-    document.getElementById('mobileMoveRight').addEventListener('click', function() {
-        character.mobileMoveRight();
-    });
-
-    document.getElementById('mobileJump').addEventListener('click', function() {
-        character.mobileJump();
-    });
-
-    document.getElementById('mobileThrowBottle').addEventListener('click', function() {
-        character.mobileThrowBottle();
-    });
-
-    // Initiale Orientierung überprüfen
-    checkOrientation();
-});
+window.addEventListener('load', checkOrientation);
+document.addEventListener('DOMContentLoaded', checkOrientation);

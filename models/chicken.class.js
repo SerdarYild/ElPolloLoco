@@ -13,6 +13,12 @@ class Chicken extends MovableObject {
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png',
     ];
 
+    /**
+     * Creates a chicken object with an image, position, and speed.
+     * 
+     * This constructor loads the image and walking animations for the chicken,
+     * sets a random x-coordinate and speed, and starts the animation.
+     */
     constructor() {
         super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
         this.loadImages(this.IMAGES_CHICKEN_WALK);
@@ -22,7 +28,8 @@ class Chicken extends MovableObject {
     }
 
     /**
-     * This Function Animate the Normal Chicken Class.
+     * Represents a chicken that moves and animates.
+     * Inherits from MovableObject.
      */
     animate() {
         let moveInterval = setInterval(() => {

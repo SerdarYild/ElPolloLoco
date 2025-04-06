@@ -14,6 +14,10 @@ class SmallChicken extends MovableObject {
         'img/3_enemies_chicken/chicken_small/2_dead/dead.png',
     ];
 
+    /**
+     * Creates a small chicken enemy and initializes its properties.
+     * Loads the necessary images and sets a random position and speed.
+     */
     constructor() {
         super().loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
         this.loadImages(this.IMAGES_CHICKEN_SMALL_WALK);
@@ -23,7 +27,8 @@ class SmallChicken extends MovableObject {
     }
 
     /**
-     * This Function Animate the Small Chicken Class.
+     * Animates the small chicken class by moving it to the left and playing the appropriate animation.
+     * If the small chicken is dead, it stops the movement and changes the image.
      */
     animateChicken() {
         let intervalSmallChicken = setInterval(() => {

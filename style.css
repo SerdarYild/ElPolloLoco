@@ -20,6 +20,10 @@ body {
     src: url('fonts/creative_juice.ttf') format('truetype');
 }
 
+* {
+    box-sizing: border-box;
+}
+
 /* Using the font for headings */
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Docktrin', sans-serif;
@@ -35,7 +39,6 @@ button {
     font-family: 'Creative Juice', sans-serif;
 }
 
-
 h1 {
     font-size: 50px;
     position: absolute;
@@ -48,48 +51,12 @@ canvas {
     display: block;
     width: 100%;
     height: 100%;
-
-}
-
-.icon-container {
-    display: flex;
-    align-items: center;
-}
-
-.icon-container img {
-    margin-right: 10px; /* Abstand zwischen den Icons */
-}
-
-.open-fullscreen {
-    width: 35px;
-    height: 35px;
-    position: absolute;
-    bottom: 15px;
-    right: 470px;
-}
-
-.open-fullscreen:hover {
-    cursor: pointer;
-    transition: all 225ms ease-in-out;
-    transform: scale(1.2);
-}
-
-.close-fullscreen {
-    width: 35px;
-    height: 35px;
-    position: absolute;
-    bottom: 13px;
-    right: 150px;
-}
-
-.close-fullscreen:hover {
-    cursor: pointer;
-    transition: all 225ms ease-in-out;
-    transform: scale(1.2);
 }
 
 .canvas-container {
     position: relative;
+    overflow: hidden;
+    display: flex;
 }
 
 .start-screen {
@@ -105,11 +72,6 @@ canvas {
     opacity: 1;
     visibility: visible;
     transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.button-mainmenu-container.d-none {
-    opacity: 0;
-    visibility: hidden;
 }
 
 .img-startscreen {
@@ -132,15 +94,67 @@ canvas {
     transform: scale(1.1);
 }
 
-.gameOverScreen {
-    width: 820px;
-    height: 480px;
+.icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+}
+
+.fullandminimize-audio-btns,
+.btn-audio-on,
+.btn-audio-off {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+.open-fullscreen,
+.close-fullscreen {
+    width: 27px;
+    height: auto;
+}
+
+.open-fullscreen:hover,
+.close-fullscreen:hover {
+    cursor: pointer;
+    transition: 225ms ease-in-out;
+    transform: scale(1.2);
+}
+
+.btn-audio-on,
+.btn-audio-off {
+    width: 30px;
+    height: auto;
+}
+
+.btn-audio-on:hover,
+.btn-audio-off:hover {
+    cursor: pointer;
+    transition: 225ms ease-in-out;
+    transform: scale(1.2);
+}
+
+.d-none {
+    display: none;
+}
+
+.img-gameover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100vh;
+    height: auto;
+    background-color: rgba(0, 0, 0, 0.7);
     animation: scale-in-center 225ms cubic-bezier(0.250, 0.460, 0.450, 0.940) 100ms both;
 }
 
 .endgame-actions {
     position: absolute;
-    bottom: 40px;
+    top: 24px;
     width: 100%;
     display: flex;
     justify-content: space-evenly;
@@ -165,7 +179,6 @@ canvas {
     transform: scale(1.2);
 }
 
-
 .btn-mainmenu {
     background-color: #83838382;
     box-sizing: border-box;
@@ -179,47 +192,6 @@ canvas {
 }
 
 .btn-mainmenu:hover {
-    cursor: pointer;
-    transition: 225ms ease-in-out;
-    transform: scale(1.2);
-}
-
-.keyboardButton {
-    width: 50px;
-    height: 50px;
-    padding-right: 120px;
-    margin-top: 25px;
-}
-
-.keyboardIcon {
-    font-size: 25px;
-    padding-left: 120px;
-    font-weight: bolder;
-}
-
-.btn-audio-on {
-    width: 45px;
-    height: 45px;
-    position: absolute;
-    right: 340px;
-    bottom: 10px;
-}
-
-.btn-audio-on:hover {
-    cursor: pointer;
-    transition: 225ms ease-in-out;
-    transform: scale(1.2);
-}
-
-.btn-audio-off {
-    width: 45px;
-    height: 45px;
-    position: absolute;
-    right: 400px;
-    bottom: 10px;
-}
-
-.btn-audio-off:hover {
     cursor: pointer;
     transition: 225ms ease-in-out;
     transform: scale(1.2);
@@ -249,55 +221,18 @@ canvas {
     transform: scale(1.2);
 }
 
-.containerWithTextAndIcon {
-    display: flex;
-    align-items: center;
-}
-
-.win-screen {
-    width: 820px;
-    height: 480px;
-    background-color:  hsla(0, 0%, 48%, 0.5);
-}
-
 .img-trophy {
     display: flex;
-    justify-content: center;
     align-items: center;
-}
-
-.img-trophy img {
-    width: 375px;
+    justify-content: center;
+    max-width: 100vh;
+    height: auto;
+    background-color: rgba(0, 0, 0, 0.7);
     animation: scale-in-center 225ms cubic-bezier(0.250, 0.460, 0.450, 0.940) 100ms both;
 }
 
 .d-none {
     display: none !important;
-}
-
-/***only for Fullscreen***/
-.canvasFullScreen {
-    width: 100%;
-    height: 100%;
-}
-
-.winScreenContainerFullScreen {
-    width: 100%;
-    height: 100%;
-}
-
-.winScreenContainerFullScreen h2 {
-    padding-top: 180px;
-}
-
-.imgTrophyContainerFullScreen img {
-    width: 230px;
-    padding-bottom: 155px;
-}
-
-.gameOverScreenFullScreen {
-    width: 100%;
-    height: 100%;
 }
 
 .game-controls {
@@ -310,7 +245,6 @@ canvas {
     margin-top: 40px;
     background-color: #69666673;
     border: solid 1px rgb(122 122 122 / 60%);
-
 }
 
 .control-item {
@@ -354,222 +288,33 @@ canvas {
 }
 
 /***Canvas***/
-@media only screen and (max-width: 820px) {
+@media only screen and (max-width: 1200px) {
+    .headline {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    body {
+        background-image: none;
+    }
+
     canvas {
         width: 100%;
     }
 
-    h1 {
-        display: none;
+    .img-trophy {
+        max-width: 420px;
+        width: 250px;
     }
 
-    .btn-audio-off {
-        width: 40px;
-        height: 40px;
-        position: absolute;
-        right: 360px;
-        bottom: 10px;
-    }
-
-    .btn-audio-on {
-        width: 40px;
-        height: 40px;
-        position: absolute;
-        right: 300px;
-        bottom: 10px;
-    }
-
-    .open-fullscreen {
-        width: 30px;
-        height: 30px;
-        position: absolute;
-        bottom: 15px;
-        right: 440px;
-    }
-}
-
-@media (max-width: 690px) {
-    .btn-audio-off {
-        width: 40px;
-        height: 40px;
-        position: absolute;
-        right: 300px;
-        bottom: 10px;
-    }
-
-    .btn-audio-on {
-        width: 40px;
-        height: 40px;
-        position: absolute;
-        right: 240px;
-        bottom: 10px;
-    }
-
-    .open-fullscreen {
-        width: 30px;
-        height: 30px;
-        position: absolute;
-        bottom: 15px;
-        right: 370px;
-    }
-
-    .btnMobile {
-        width: 35px;
-        height: 35px;
-    }
-}
-
-@media (max-width: 550px) {
-    .btn-audio-off {
-        width: 30px;
-        height: 30px;
-        position: absolute;
-        right: 230px;
-        bottom: 8px;
-    }
-
-    .btn-audio-on {
-        width: 30px;
-        height: 30px;
-        position: absolute;
-        right: 180px;
-        bottom: 8px;
-    }
-
-    .open-fullscreen {
-        width: 20px;
-        height: 20px;
-        position: absolute;
-        bottom: 12px;
-        right: 280px;
-    }
-
-    .btnMobile {
-        width: 30px;
-        height: 30px;
-        padding-left: 8px;
-        padding-right: 8px;
-    }
-
-    .game-controls {
-        width: 280px;
-        height: 360px;
-        margin-top: 60px;
-    }
-}
-
-@media (max-width: 450px) {
-    .btn-audio-off {
-        width: 25px;
-        height: 25px;
-        position: absolute;
-        right: 180px;
-        bottom: 7px;
-    }
-
-    .btn-audio-on {
-        width: 25px;
-        height: 25px;
-        position: absolute;
-        right: 150px;
-        bottom: 7px;
-    }
-
-    .open-fullscreen {
-        width: 18px;
-        height: 18px;
-        position: absolute;
-        bottom: 10px;
-        right: 220px;
-    }
-
-    .btnMobile {
-        width: 25px;
-        height: 25px;
-        padding-left: 6px;
-        padding-right: 6px;
-    }
-}
-
-@media (max-width: 370px) {
-    .btn-audio-off {
-        width: 22px;
-        height: 22px;
-        position: absolute;
-        right: 160px;
-        bottom: 5px;
-    }
-
-    .btn-audio-on {
-        width: 22px;
-        height: 22px;
-        position: absolute;
-        right: 120px;
-        bottom: 5px;
-    }
-
-    .open-fullscreen {
-        width: 18px;
-        height: 18px;
-        position: absolute;
-        bottom: 7px;
-        right: 200px;
-    }
-
-    .btnMobile {
-        width: 20px;
-        height: 20px;
-    }
-}
-
-@media (max-width: 300px) {
-    .btn-audio-off {
-        width: 22px;
-        height: 22px;
-        position: absolute;
-        right: 120px;
-        bottom: 5px;
-    }
-
-    .btn-audio-on {
-        width: 22px;
-        height: 22px;
-        position: absolute;
-        right: 80px;
-        bottom: 5px;
-    }
-
-    .open-fullscreen {
-        width: 17px;
-        height: 17px;
-        position: absolute;
-        bottom: 8px;
-        right: 160px;
-    }
-}
-
-@media only screen and (max-height: 480px) {
-    canvas {
-        height: 100vh;
-    }
-
-    h1 {
-        display: none;
+    .img-gameover {
+        max-width: 420px;
+        width: 250px;
     }
 }
 
 /***Start Screen***/
-@media (max-height: 480px) {
-    .img-startscreen {
-        height: 100vh !important;
-    }
-
-    h1 {
-        display: none;
-    }
-}
-
-
 @media (max-width: 820px) {
     .img-startscreen {
         width: 100%;
@@ -581,6 +326,11 @@ canvas {
     }
 }
 
+@media (max-height: 480px) {
+    .img-startscreen {
+        height: 100vh !important;
+    }
+}
 
 @media (max-width: 690px) {
     .btn-play, .btn-controls {
@@ -608,25 +358,43 @@ canvas {
     }
 
     .endgame-actions {
-        bottom: 30px;
+        
+    }
+}
+
+@media (max-width: 500px) {
+    .endgame-actions {
+        
+    }
+
+    .restart-game {
+        height: 30px;
+        width: 110px;
+        font-size: 22px;
+    }
+
+    .btn-mainmenu {
+        height: 30px;
+        width: 110px;
+        font-size: 22px;
     }
 }
 
 @media (max-width: 450px) {
     .endgame-actions {
-        bottom: 20px;
+        
     }
 
     .restart-game {
-        height: 30px;
-        width: 130px;
-        font-size: 24px;
+        height: 25px;
+        width: 100px;
+        font-size: 20px;
     }
 
     .btn-mainmenu {
-        height: 30px;
-        width: 130px;
-        font-size: 24px;
+        height: 25px;
+        width: 100px;
+        font-size: 20px;
     }
 
     .btn-play, .btn-controls {
@@ -640,134 +408,10 @@ canvas {
     }
 }
 
-/***Gameover Screen***/
-@media (max-height: 480px) {
-    .gameOverScreen {
-        height: 100vh !important;
-    }
-}
-
-@media (max-width: 820px) {
-    .gameOverScreen {
-        width: 100%;
-        height: 100%;
-    }
-}
-
-@media (max-width: 470px) {
-
-}
-
-
-/***Win Screen***/
-@media (max-width: 820px) {
-    .win-screen {
-        width: 100vw;
-    }
-
-    .img-trophy img {
-        width: 160px;
-        position: absolute;
-        top: 130px;
-        right: 340px;
-    }
-}
-
-@media (max-width: 620px) {
-    .win-screen h2 {
-        font-size: 30px;
-    }
-
-    .win-screen {
-        width: 100vw;
-    }
-
-    .img-trophy img {
-        width: 160px;
-        position: absolute;
-        top: 70px;
-        right: 240px;
-    }
-}
-
-@media (max-width: 470px) {
-    .win-screen h2 {
-        font-size: 25px;
-        position: absolute;
-        top: 100px;
-        right: 50px;
-    }
-
-    .win-screen {
-        width: 100vw;
-    }
-
-    .img-trophy img {
-        width: 160px;
-        position: absolute;
-        top: 200px;
-        right: 150px;
-    }
-}
-
-@media (max-width: 390px) {
-    .win-screen h2 {
-        font-size: 20px;
-        position: absolute;
-        top: 240px;
-        right: 70px;
-    }
-
-    .img-trophy img {
-        padding-top: 55px;
-        position: absolute;
-        top: -20px;
-        right: 130px;
-    }
-
-    .win-screen {
-        margin-top: 116px;
-    }
-}
-
-@media (max-width: 320px) {
-    .win-screen {
-        width: 100vw;
-    }
-
-    .win-screen h2 {
-        font-size: 20px;
-        position: absolute;
-        top: 220px;
-        right: 40px;
-    }
-
-    .img-trophy img {
-        padding-top: 55px;
-        position: absolute;
-        top: -40px;
-        right: 80px;
-    }
-
-    .win-screen {
-        margin-top: 116px;
-    }
-}
-
 /***Steering Menu***/
 @media (max-width: 820px) {
     .controls-container {
         width: 100%;
-    }
-}
-
-@media (max-width: 570px) {
-    .keyboardButton {
-        padding-right: 100px;
-    }
-
-    .keyboardIcon {
-        padding-left: 100px;
     }
 }
 
@@ -777,27 +421,11 @@ canvas {
         height: 25px;
         top: 15px;
     }
-
-    .keyboardButton {
-        padding-right: 80px;
-    }
-
-    .keyboardIcon {
-        padding-left: 80px;
-    }
 }
 
 @media (max-width: 470px) {
     .controls-container h2 {
         font-size: 30px;
-    }
-
-    .keyboardButton {
-        padding-right: 60px;
-    }
-
-    .keyboardIcon {
-        padding-left: 60px;
     }
 }
 
@@ -805,55 +433,22 @@ canvas {
     .controls-container h2 {
         font-size: 25px;
     }
-
-    .keyboardButton {
-        padding-right: 40px;
-        width: 40px;
-        height: 40px;
-    }
-
-    .keyboardIcon {
-        padding-left: 40px;
-        font-size: 22px;
-    }
 }
 
 @media (max-width: 360px) {
     .controls-container h2 {
         margin-bottom: 40px;
     }
-
-    .keyboardButton {
-        padding-right: 30px;
-    }
-
-    .keyboardIcon {
-        padding-left: 30px;
-    }
 }
 
 @media (max-width: 345px) {
     .controls-container h2 {
         font-size: 20px;
-
     }
 
     .btn-close {
         top: 23px;
         width: 25px;
         height: 25px;
-    }
-
-    .keyboardButton {
-        padding-right: 25px;
-        margin-bottom: 10px;
-        margin-top: 22px;
-        width: 35px;
-        height: 35px
-    }
-
-    .keyboardIcon {
-        padding-left: 25px;
-        font-size: 20px;
     }
 }

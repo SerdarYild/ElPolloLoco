@@ -6,6 +6,7 @@ class Keyboard {
 
     constructor() {
         this.eventKeyboardBtns();
+        this.eventMobileBtns();
     }
 
     eventKeyboardBtns() {
@@ -13,23 +14,15 @@ class Keyboard {
             if (event.keyCode == 37) {
                 this.left = true;
             }
-
             if (event.keyCode == 39) {
                 this.right = true;
             }
-
             if (event.keyCode == 38) {
-                this.up = true;
+                this.space = true;
             }
-
-            if (event.keyCode == 40) {
-                this.down = true;
-            }
-
             if (event.keyCode == 32) {
                 this.space = true;
             }
-
             if (event.keyCode == 68) {
                 this.d = true;
             }
@@ -39,26 +32,63 @@ class Keyboard {
             if (event.keyCode == 37) {
                 this.left = false;
             }
-
             if (event.keyCode == 39) {
                 this.right = false;
             }
-
             if (event.keyCode == 38) {
-                this.up = false;
+                this.space = false;
             }
-
-            if (event.keyCode == 40) {
-                this.down = false;
-            }
-
             if (event.keyCode == 32) {
                 this.space = false;
             }
-
             if (event.keyCode == 68) {
                 this.d = false;
             }
         });
     }
+
+    eventMobileBtns() {
+        setTimeout(() => {
+            document.getElementById('mobileMoveLeft').addEventListener('touchstart', (event) => {
+                event.preventDefault();
+                this.left = true;
+            });
+    
+            document.getElementById('mobileMoveLeft').addEventListener('touchend', (event) => {
+                event.preventDefault();
+                this.left = false;
+            });
+    
+            document.getElementById('mobileMoveRight').addEventListener('touchstart', (event) => {
+                event.preventDefault();
+                this.right = true;
+            });
+    
+            document.getElementById('mobileMoveRight').addEventListener('touchend', (event) => {
+                event.preventDefault();
+                this.right = false;
+            });
+    
+            document.getElementById('mobileJump').addEventListener('touchstart', (event) => {
+                event.preventDefault();
+                this.space = true;
+            });
+    
+            document.getElementById('mobileJump').addEventListener('touchend', (event) => {
+                event.preventDefault();
+                this.space = false;
+            });
+    
+            document.getElementById('mobileThrow').addEventListener('touchstart', (event) => {
+                event.preventDefault();
+                this.d = true;
+            });
+    
+            document.getElementById('mobileThrow').addEventListener('touchend', (event) => {
+                event.preventDefault();
+                this.d = false;
+            });
+    
+        }, 150);
+    }    
 }
