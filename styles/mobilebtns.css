@@ -28,14 +28,14 @@
 @media (pointer: coarse) {
     .mobile-buttons-left,
     .mobile-buttons-right {
-        display: flex !important;
+        display: flex;
     }
 }
 
 @media (pointer: fine) {
     .mobile-buttons-left,
     .mobile-buttons-right {
-        display: none !important;
+        /* display: none !important;  <-- da standardmäßig 'none' */
     }
 }
 
