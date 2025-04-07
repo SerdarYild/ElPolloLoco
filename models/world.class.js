@@ -170,18 +170,23 @@ class World {
     checkCollisionsChicken() {
         this.level.enemies.forEach(enemy => {
             if (this.character.isColliding(enemy) && !this.character.isHurtCharacter()) {
-                if (this.character.isAboveGround()) {
+                let characterBottom = this.character.y + this.character.height;
+                let enemyTop = enemy.y;
+                let isAbove = characterBottom <= enemyTop + enemy.height * 0.5;
+                let isFalling = this.character.speedY < 0;
+    
+                if (isAbove && isFalling) {
                     this.jumpAndKillChicken(enemy);
                 } else {
-                    this.character.hitCharacter(); // Reduces energy by 10
+                    this.character.hitCharacter();
                     this.statusbarHealth.setPercentage(this.character.energy);
                     if (this.character.isDead()) {
-                        this.gameOver(); // Ends the game if the character is dead
+                        this.gameOver();
                     }
                 }
             }
         });
-    }
+    }    
 
     /**
      * This function is when we jumped on the chicken.
