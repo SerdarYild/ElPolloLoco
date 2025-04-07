@@ -243,7 +243,9 @@ class World {
         document.getElementById('gameoverContainer').classList.remove('d-none');
         document.getElementById('canvas').classList.add('d-none');
         runningAudio.pause();
-        runningAudio.currentTime = 0;    
+        runningAudio.currentTime = 0;
+        document.getElementById('mobileButtonsLeft').classList.add('d-none');
+        document.getElementById('mobileButtonsRight').classList.add('d-none');
     }
 
     /**
