@@ -153,6 +153,8 @@ function showWinScreen() {
         document.getElementById('audioOn').classList.add('d-none');
         document.getElementById('openFullscreenIcon').classList.add('d-none');
         document.getElementById('closeFullscreenIcon').classList.add('d-none');
+        document.getElementById('mobileButtonsLeft').classList.add('d-none');
+        document.getElementById('mobileButtonsRight').classList.add('d-none');
         pauseGameSound();
     }, 1000);
 }
